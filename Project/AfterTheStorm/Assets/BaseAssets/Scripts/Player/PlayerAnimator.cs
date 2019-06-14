@@ -156,7 +156,7 @@ namespace LowEngine.Animation
         {
             if (lastAttack_1 < Time.time)
             {
-                if (combatComponent.input.y != 0)
+                if (combatComponent.input.x != 0)
                 {
                     animator.SetTrigger("Attack1");
 
@@ -172,7 +172,7 @@ namespace LowEngine.Animation
 
             if (lastAttack_0 < Time.time)
             {
-                if (combatComponent.input.x != 0)
+                if (combatComponent.input.y != 0)
                 {
                     animator.SetTrigger("Attack2");
 

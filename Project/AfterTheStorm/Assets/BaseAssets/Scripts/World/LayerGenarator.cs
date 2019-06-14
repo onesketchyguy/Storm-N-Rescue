@@ -23,8 +23,7 @@ namespace LowEngine.LayerGeneration
         /// </summary>
         public bool generating { get; private set; }
 
-        [Header("Obstacles")]
-        public GameObject Bomb;
+        public GameObject Civilian;
 
         private void Start()
         {
@@ -41,9 +40,9 @@ namespace LowEngine.LayerGeneration
                 GenerateLayer();
             }
 
-            if (WallMap.GetTile(new Vector3Int(0, (int)Utilities.ScreenMin.y - 5, 0)) != null)
+            if (WallMap.GetTile(new Vector3Int(0, (int)Utilities.ScreenMin.y - 50, 0)) != null && Time.timeSinceLevelLoad > 6)
             {
-                //DestroyTopLayers();
+                DestroyBottomLayers();
             }
         }
 
@@ -71,11 +70,9 @@ namespace LowEngine.LayerGeneration
                         }
                     }
                     else
+                    if (x == 0 || x == size.x - 1)
                     {
-                        if (x == 0 || x == size.x - 1)
-                        {
-                            WalkableMap.SetTile(pos, TileToUse);
-                        }
+                        WalkableMap.SetTile(pos, TileToUse);
                     }
                 }
             }
@@ -86,13 +83,13 @@ namespace LowEngine.LayerGeneration
             generating = false;
         }
 
-        private void DestroyTopLayers()
+        private void DestroyBottomLayers()
         {
             for (int x = 0; x < 18; x++)
             {
                 for (int y = 0; y < 10; y++)
                 {
-                    Vector3Int pos = new Vector3Int((int)(x + -9), (int)((Utilities.ScreenMax.y + y)), 0); // Store the position so we can us it again later.
+                    Vector3Int pos = new Vector3Int((int)(x + -9), (int)((Utilities.ScreenMin.y + y)), 0); // Store the position so we can us it again later.
 
                     if (WallMap.GetTile(pos) != null)
                     {
