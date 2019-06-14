@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: f11f78dd53f0ee342930934c4e8c134b
+guid: 3ec815da970af2f479112ea39723a546
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7973861647424831005
-    second: Wall
+      213: 6682738439518977790
+    second: Ground_0
   - first:
-      213: 7971976436989757407
-    second: Pillar
-  - first:
-      213: -3665338592477453672
-    second: Wall_End
+      213: -562605217060080129
+    second: Ground_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -69,7 +66,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 0
@@ -80,7 +77,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 128
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 0
@@ -91,7 +88,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 128
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 0
@@ -102,7 +99,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: WebGL
-    maxTextureSize: 128
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: 4
     textureCompression: 0
@@ -115,7 +112,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wall
+      name: Ground_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,17 +123,21 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -12.5, y: -12.5}
+        - {x: -12.5, y: 10.5}
+        - {x: 12.5, y: 10.5}
+        - {x: 12.5, y: -12.5}
       tessellationDetail: 0
       bones: []
-      spriteID: 9564d1dadb280be46b6d05a4d3c9bfd0
-      internalID: 7973861647424831005
+      spriteID: 806fda8ebdfb0094585db980b81997bf
+      internalID: 6682738439518977790
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pillar
+      name: Ground_1
       rect:
         serializedVersion: 2
         x: 25
@@ -150,29 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c88be7b55020984aae06a2f0c365926
-      internalID: 7971976436989757407
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wall_End
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 0
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2a263dbc77f900447b428a8692f62f2c
-      internalID: -3665338592477453672
+      spriteID: ce2e3a0764f8058479337641918ea8b7
+      internalID: -562605217060080129
       vertices: []
       indices: 
       edges: []
@@ -180,7 +160,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: cdd239a2eb890aa40bf21eb2eb7c8d2c
+    spriteID: 779a8d125b3c5b6408c199dfde01dc04
     internalID: 0
     vertices: []
     indices: 
