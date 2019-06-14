@@ -16,6 +16,8 @@ namespace LowEngine.LayerGeneration
         public Vector2 size = new Vector2(10, 3);
         private Vector3 offSet { get; set; }
 
+        private int layers;
+
         /// <summary>
         /// Wether or not a layer is currently being made.
         /// </summary>
@@ -33,8 +35,6 @@ namespace LowEngine.LayerGeneration
 
         private void Update()
         {
-            DrawCamPos();
-
             // Create new layers
             if (WallMap.GetTile(new Vector3Int(0, (int)Utilities.ScreenMax.y + 5, 0)) == null)
             {
@@ -45,20 +45,6 @@ namespace LowEngine.LayerGeneration
             {
                 //DestroyTopLayers();
             }
-        }
-
-        private void DrawCamPos()
-        {
-            var topLeft = new Vector3(Utilities.ScreenMin.x, Utilities.ScreenMax.y);
-            var bottomLeft = Utilities.ScreenMin;
-
-            var bottomRight = new Vector3(Utilities.ScreenMax.x, Utilities.ScreenMin.y);
-            var topRight = Utilities.ScreenMax;
-
-            Debug.DrawLine(topLeft, topRight);
-            Debug.DrawLine(topLeft, bottomLeft);
-            Debug.DrawLine(topRight, bottomRight);
-            Debug.DrawLine(bottomLeft, bottomRight);
         }
 
         /// <summary>
@@ -77,14 +63,25 @@ namespace LowEngine.LayerGeneration
 
                     WallMap.SetTile(pos, TileToUse);
 
-                    if (x == 0 || x == size.x - 1 || y == 0 || y == size.y - 1)
+                    if (layers > 0 && y > 0)
                     {
-                        WalkableMap.SetTile(pos, TileToUse);
+                        if (x == 0 || x == size.x - 1 || y == 0 || y == size.y - 1)
+                        {
+                            WalkableMap.SetTile(pos, TileToUse);
+                        }
+                    }
+                    else
+                    {
+                        if (x == 0 || x == size.x - 1)
+                        {
+                            WalkableMap.SetTile(pos, TileToUse);
+                        }
                     }
                 }
             }
 
             offSet = new Vector3(size.x / 2, offSet.y + size.y - 1); // Move the offset down so we can work with the next layer down next time.
+            layers++;
 
             generating = false;
         }
