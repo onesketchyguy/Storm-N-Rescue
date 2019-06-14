@@ -136,7 +136,7 @@ namespace LowEngine.Helpers
             }
 
             if (combatComponent == null) // Check if a combat component exists
-            {/*
+            {
                 if (Time.timeSinceLevelLoad > 1) // If we don't have access to the combat component one second after launching this scene.
                 {
                     Debug.LogError($"No component of type LowEngine.Helpers.ICombat on {gameObject.name}. Combat not possible."); // Log out an error.
@@ -145,12 +145,11 @@ namespace LowEngine.Helpers
                 }
 
                 return; // If the combatComponent is not existant then don't continue.
-                */
             }
 
             movementComponent.input = MoveInput; // Set the input for the user.
 
-            //combatComponent.input = CombatInput; // Set the combat input for the user.
+            combatComponent.input = CombatInput; // Set the combat input for the user.
         }
     }
 }
