@@ -7,35 +7,75 @@ namespace LowEngine
 
     public class DestroyEnviroment : MonoBehaviour, ICombat
     {
+        [SerializeField] private float DigRange = 0.5f;
+        public LayerMask Diggable;
+
+        public GameObject Effect;
+
         public Vector4 input { get; set; }
         public bool attacking { get; set; }
 
-        private void Update()
+        private float lastAttack;
+
+        private int faceDirection
         {
-            if (input.x != 0)  // Attacking
+            get
             {
-                var dir = GetComponent<SpriteRenderer>().flipX ? Vector3.left : Vector3.right;
+                return GetComponent<SpriteRenderer>().flipX ? -1 : 1;
+            }
+        }
 
-                var dist = 0.5f;
+        private void LateUpdate()
+        {
+            if (lastAttack + 0.1f < Time.time)
+            {
+                attacking = false;
+            }
+        }
 
-                RaycastHit2D RayCastInfo = Physics2D.Raycast(transform.position + dir, dir, dist);
+        public void Attack()
+        {
+            lastAttack = Time.time;
 
-                var pos = new Vector3Int((int)(RayCastInfo.point.x - dir.x), (int)RayCastInfo.point.y, 0);
+            var dir = Vector3.right * faceDirection;
 
-                if (RayCastInfo.transform != null)
+            Vector3 targetPosition = transform.right * faceDirection;
+            RaycastHit2D hitInfo;
+
+            if ((hitInfo = Physics2D.Raycast(transform.position, targetPosition, DigRange, Diggable)) == true)
+            {
+                var tilemap = hitInfo.transform.gameObject.GetComponent<Tilemap>();
+
+                Debug.DrawRay(transform.position, targetPosition * DigRange, Color.red, 2f);
+
+                if (tilemap == null)
                 {
-                    Debug.Log("Hit" + RayCastInfo.transform.name);
+                    attacking = false;
 
-                    var hit = RayCastInfo.transform.gameObject.GetComponent<Tilemap>();
+                    Debug.Log("No tilemap hit");
 
-                    if (hit != null)
-                    {
-                        hit.SetTile(pos, null);
-                    }
+                    return;
                 }
 
-                Debug.DrawLine(transform.position, pos, Color.green, 5);
+                Vector3Int position = new Vector3Int(
+                    (int)hitInfo.point.x + (faceDirection > 0 ? 0 : -1),
+                    Mathf.FloorToInt(hitInfo.point.y),
+                    0);
+
+                if (tilemap.GetTile(position) != null)
+                {
+                    tilemap.SetTile(position, null);
+
+                    if (Effect != null)
+                        Instantiate(Effect, position, Quaternion.identity);
+                }
+                else
+                {
+                    Debug.Log("No Tile hit");
+                }
             }
+
+            attacking = false;
         }
     }
 }

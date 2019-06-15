@@ -17,11 +17,10 @@ namespace LowEngine.CameraBehaviour
             if (go != null)
             {
                 Following = go.transform;
-                lastY = go.transform.position.y - 10;
+                targetPos = Following.transform.position + offset;
             }
         }
 
-        private float lastY;
         private Vector3 targetPos;
 
         private void Update()
@@ -32,29 +31,32 @@ namespace LowEngine.CameraBehaviour
             }
             else
             {
-                if (Following.GetComponent<Rigidbody2D>().velocity.y > .5f) return;
+                if (Following.GetComponent<Rigidbody2D>().velocity.y > .5f) return; // User is jumping, do not follow
 
+                var padding = Camera.main.orthographicSize - (Camera.main.orthographicSize / 2f);
+                var moveDist = padding - 1;
                 var desiredPosition = new Vector3(Following.transform.position.x + offset.x, Following.transform.position.y + offset.y, offset.z);
 
-                if (desiredPosition.y > lastY)
-                {
-                    targetPos = desiredPosition;
-                }
+                Debug.DrawLine(new Vector3(Utilities.ScreenMin.x + padding, Utilities.ScreenMin.y), new Vector3(Utilities.ScreenMax.x - padding, Utilities.ScreenMax.y));
+
+                Debug.DrawLine(Following.transform.position, targetPos);
 
                 if (Time.timeSinceLevelLoad > 4)
                 {
-                    if (Following.transform.position.x > Utilities.ScreenMax.x - 2 || Following.transform.position.x < Utilities.ScreenMin.x + 2)
+                    if (Following.transform.position.x > Utilities.ScreenMax.x - padding || Following.transform.position.x < Utilities.ScreenMin.x + padding)
                     {
-                        float dist = Camera.main.orthographicSize + (Camera.main.orthographicSize / 2f);
+                        targetPos = desiredPosition + (Vector3.right * (Following.transform.position.x > Utilities.ScreenMax.x - padding ? moveDist : -moveDist));
+                    }
 
-                        targetPos = desiredPosition + ((Following.transform.position.x > Utilities.ScreenMax.x - 1) ? new Vector3(-dist, 0) : new Vector3(dist, 0));
+                    if (Following.transform.position.y > Utilities.ScreenMax.y - padding / 2f || Following.transform.position.y < Utilities.ScreenMin.y + padding / 2f)
+                    {
+                        targetPos = desiredPosition + (Vector3.up * (Following.transform.position.y > Utilities.ScreenMax.y - padding / 2f ? moveDist / 2f : -moveDist / 2f));
                     }
                 }
 
-                if (transform.position != desiredPosition)
+                if (transform.position != targetPos)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-                    lastY = transform.position.y;
                 }
             }
         }

@@ -54,6 +54,8 @@ namespace LowEngine.LayerGeneration
             if (generating) return;
             generating = true;
 
+            int civsPlaced = 0;
+
             for (int x = 0; x < size.x; x++)
             {
                 for (int y = 0; y < size.y; y++)
@@ -64,9 +66,25 @@ namespace LowEngine.LayerGeneration
 
                     if (layers > 0 && y > 0)
                     {
-                        if (x == 0 || x == size.x - 1 || y == 0 || y == size.y - 1)
+                        if (x == 0 || x == size.x - 1 || y == 0 || y == size.y - 1) // walls and cieling
                         {
                             WalkableMap.SetTile(pos, TileToUse);
+                        }
+                        else
+                        {
+                            //Inside the building
+
+                            if (civsPlaced < 2) // Limit 2 civilians per story
+                            {
+                                var placeCivilian = (int)Random.Range(0, size.x / 2) == 1;
+
+                                if (placeCivilian)
+                                {
+                                    Instantiate(Civilian, pos, Quaternion.identity);
+
+                                    civsPlaced++;
+                                }
+                            }
                         }
                     }
                     else

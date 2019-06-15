@@ -110,10 +110,10 @@ namespace LowEngine.Animation
         [HideInInspector] public bool isDead;
 
         private float lastAttack_1;
-        private float lastAttack_0;
+        private float lastAttack_2;
 
-        public float waitBetweenAttacks_1 = 1;
-        public float waitBetweenAttacks_0 = 0.25f;
+        public float waitBetweenAttack_1 = 0.1f;
+        public float waitBetweenAttack_2 = 0.25f;
 
         private void Update()
         {
@@ -156,13 +156,15 @@ namespace LowEngine.Animation
         {
             if (lastAttack_1 < Time.time)
             {
+                combatComponent.attacking = false;
+
                 if (combatComponent.input.x != 0)
                 {
                     animator.SetTrigger("Attack1");
 
                     combatComponent.attacking = true;
 
-                    lastAttack_1 = Time.time + waitBetweenAttacks_1;
+                    lastAttack_1 = Time.time + waitBetweenAttack_1;
                 }
             }
             else
@@ -170,7 +172,7 @@ namespace LowEngine.Animation
                 animator.ResetTrigger("Attack1");
             }
 
-            if (lastAttack_0 < Time.time)
+            if (lastAttack_2 < Time.time)
             {
                 if (combatComponent.input.y != 0)
                 {
@@ -178,7 +180,7 @@ namespace LowEngine.Animation
 
                     combatComponent.attacking = true;
 
-                    lastAttack_0 = Time.time + waitBetweenAttacks_0;
+                    lastAttack_2 = Time.time + waitBetweenAttack_2;
                 }
             }
             else
