@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3707727920354223145}
   - component: {fileID: 3707727920354223144}
   - component: {fileID: 2076646628}
+  - component: {fileID: 3898925804398256730}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -105,7 +106,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 500
   m_Sprite: {fileID: -2311659948842064771, guid: 5c81dc9a7f4617f4b84a5901fa30ab34,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -220,3 +221,16 @@ MonoBehaviour:
   Diggable:
     serializedVersion: 2
     m_Bits: 51
+  Effect: {fileID: 8797407969289500241, guid: 8293143d41e19bb40a6cd0806d6194aa, type: 3}
+--- !u!114 &3898925804398256730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3707727920354223121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c286b103a3a79542b6c03c8196b77e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -9,8 +9,10 @@ namespace LowEngine.LayerGeneration
     public class LayerGenarator : MonoBehaviour
     {
         public TileBase TileToUse;
+        public TileBase Fire;
 
         public Tilemap WalkableMap; // The layer the player will be walking on/destroying
+        public Tilemap HazardMap; // The layer the player can be damaged by
         public Tilemap WallMap; // The layer the player will NOT be walking on, but will be visable.
 
         public Vector2 size = new Vector2(10, 3);
@@ -24,6 +26,8 @@ namespace LowEngine.LayerGeneration
         public bool generating { get; private set; }
 
         public GameObject Civilian;
+
+        public GameObject StrikePoint;
 
         private void Start()
         {
@@ -62,7 +66,20 @@ namespace LowEngine.LayerGeneration
                 {
                     Vector3Int pos = new Vector3Int((int)(x - offSet.x), (int)(y + offSet.y), 0); // Store the position so we can us it again later.
 
+                    var fireHere = (int)Random.Range(0, size.x / 2) == 1;
+                    if (fireHere)
+                    {
+                        HazardMap.SetTile(pos, Fire);
+                    }
+
                     WallMap.SetTile(pos, TileToUse);
+
+                    var placeStrikePoint = (int)Random.Range(0, size.x / 2) == 1;
+
+                    if (placeStrikePoint)
+                    {
+                        Instantiate(StrikePoint, pos, Quaternion.identity);
+                    }
 
                     if (layers > 0 && y > 0)
                     {
@@ -74,7 +91,7 @@ namespace LowEngine.LayerGeneration
                         {
                             //Inside the building
 
-                            if (civsPlaced < 2) // Limit 2 civilians per story
+                            if (civsPlaced < 2 && !fireHere) // Limit 2 civilians per story
                             {
                                 var placeCivilian = (int)Random.Range(0, size.x / 2) == 1;
 

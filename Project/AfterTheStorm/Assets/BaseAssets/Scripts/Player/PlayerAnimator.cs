@@ -117,9 +117,8 @@ namespace LowEngine.Animation
 
         private void Update()
         {
-            //if (damagableComponent == null || damagableComponent.Health == null) return;
+            if (damagableComponent == null || damagableComponent.Health == null) return;
 
-            /*
             if (damagableComponent.Health.empty && isDead == false)
             {
                 isDead = true;
@@ -128,7 +127,6 @@ namespace LowEngine.Animation
 
                 return;
             }
-            */
 
             float speedX = 1 - (movementComponent.maxSpeed.x - movementComponent.currentSpeed.x) / movementComponent.maxSpeed.x;
             animator.SetFloat("speed.x", Mathf.Abs(speedX));
