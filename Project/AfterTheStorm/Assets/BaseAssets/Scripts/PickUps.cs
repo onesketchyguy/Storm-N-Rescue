@@ -1,40 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PickUps : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
+    public int scoreToAdd = 15;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             gameObject.SetActive(false);
 
-            ModifyScore(15);
-
-
-
+            Score.ModifyScore(scoreToAdd);
         }
     }
-
-
-    public static void ModifyScore(int mod)
-    {
-        Score.score = Score.score + mod;
-    }
-
-
-
 }

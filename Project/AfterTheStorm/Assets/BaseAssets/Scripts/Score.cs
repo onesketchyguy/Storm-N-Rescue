@@ -5,20 +5,15 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    
     public static int score; //The player's score
 
-   
-
-    void Start()
+    private void Start()
     {
         score = 0;
     }
 
-   
-    void Update()
+    private void Update()
     {
-        
     }
 
     public static void Reset()
@@ -30,8 +25,4 @@ public class Score : MonoBehaviour
     {
         score = score + mod;
     }
-
-
-
-
 }
