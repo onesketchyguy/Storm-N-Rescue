@@ -41,7 +41,7 @@ namespace LowEngine
                 StartCoroutine(LoadNewLevel());
             }
 
-            if (player.gameObject.transform.position.y < Utilities.ScreenMin.y - 2)
+            if (player.gameObject.transform.position.y < Utilities.ScreenMin.y - 1)
             {
                 player.Hurt(30);
             }

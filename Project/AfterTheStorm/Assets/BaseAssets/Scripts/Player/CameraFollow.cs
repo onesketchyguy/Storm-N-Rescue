@@ -37,7 +37,7 @@ namespace LowEngine.CameraBehaviour
 
                 desiredPosition = new Vector3(Following.transform.position.x + offset.x, Following.transform.position.y + offset.y, offset.z);
 
-                if (desiredPosition.y > lastPosition.y || desiredPosition != lastPosition)
+                if (desiredPosition.y > lastPosition.y - 1 || desiredPosition != lastPosition)
                 {
                     var newPos = new Vector3(desiredPosition.x, lastPosition.y, desiredPosition.z);
 

@@ -84,8 +84,6 @@ namespace Hostile
                 if (map.name.ToLower().Contains("back")) continue;
                 if (map.name.ToLower().Contains("walk")) continue;
 
-                Debug.Log("Hazard map");
-
                 map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), FindObjectOfType<LightningManager>().fire);
 
                 Instantiate(FindObjectOfType<LightningManager>().LightningEffect, target, Quaternion.identity);

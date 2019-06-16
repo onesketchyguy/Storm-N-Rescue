@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class UI : MonoBehaviour
+public class ScoreKeeper : MonoBehaviour
 {
     private Text scoretext;
 
