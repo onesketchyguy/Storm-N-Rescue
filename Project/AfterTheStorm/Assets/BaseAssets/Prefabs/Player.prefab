@@ -132,8 +132,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0029888153, y: -0.14434934}
-  m_Size: {x: 0.23660469, y: 0.60248613}
+  m_Offset: {x: 0, y: -0.14434934}
+  m_Size: {x: 0.3, y: 0.60248613}
   m_Direction: 0
 --- !u!50 &3707727920354223124
 Rigidbody2D:
@@ -217,11 +217,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0847f4e49b0c39645b49fb2c36f4b6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DigRange: 0.5
+  DigRange: 0.75
   Diggable:
     serializedVersion: 2
     m_Bits: 51
-  Effect: {fileID: 8797407969289500241, guid: 8293143d41e19bb40a6cd0806d6194aa, type: 3}
+  WallEffect: {fileID: 8797407969289500241, guid: 8293143d41e19bb40a6cd0806d6194aa,
+    type: 3}
+  FireEffect: {fileID: 3249249782930694768, guid: c4a35db04faf1014699fb4bc9cce1d0d,
+    type: 3}
 --- !u!114 &3898925804398256730
 MonoBehaviour:
   m_ObjectHideFlags: 0

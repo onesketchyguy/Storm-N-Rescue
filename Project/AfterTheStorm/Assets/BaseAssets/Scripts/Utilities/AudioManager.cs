@@ -9,6 +9,8 @@ namespace LowEngine.Audio
         private void Awake()
         {
             instance = this;
+
+            PlayerPrefsManager.ResetValues();
         }
 
         /// <summary>
@@ -37,28 +39,6 @@ namespace LowEngine.Audio
         public static float GetClipVolume(Vector2 playedFrom)
         {
             return Mathf.Clamp(Vector3.Distance(Camera.main.transform.position, playedFrom), 0, 1f);
-        }
-
-        public AudioClip[] EatSounds;
-
-        public void PlayEat(Vector3 fromPoint)
-        {
-            float distToCam = GetClipVolume(fromPoint);
-
-            AudioClip clip = EatSounds[Random.Range(0, EatSounds.Length)];
-
-            PlayClip(clip, fromPoint, distToCam);
-        }
-
-        public AudioClip[] DrinkSounds;
-
-        public void PlayDrink(Vector3 fromPoint)
-        {
-            float distToCam = GetClipVolume(fromPoint);
-
-            AudioClip clip = DrinkSounds[Random.Range(0, DrinkSounds.Length)];
-
-            PlayClip(clip, fromPoint, distToCam);
         }
 
         public AudioClip[] JumpSounds;
@@ -101,17 +81,6 @@ namespace LowEngine.Audio
             float distToCam = GetClipVolume(fromPoint);
 
             AudioClip clip = PickupCoinSounds[Random.Range(0, PickupCoinSounds.Length)];
-
-            PlayClip(clip, fromPoint, distToCam);
-        }
-
-        public AudioClip[] ProjectileHitWallSounds;
-
-        public void PlayProjectileHitWallSound(Vector3 fromPoint)
-        {
-            float distToCam = GetClipVolume(fromPoint);
-
-            AudioClip clip = ProjectileHitWallSounds[Random.Range(0, ProjectileHitWallSounds.Length)];
 
             PlayClip(clip, fromPoint, distToCam);
         }

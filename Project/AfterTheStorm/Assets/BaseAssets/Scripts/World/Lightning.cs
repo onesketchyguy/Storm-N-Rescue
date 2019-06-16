@@ -10,8 +10,6 @@ namespace Hostile
     {
         private LineRenderer _renderer;
 
-        public TileBase Fire;
-
         public bool Active
         {
             get
@@ -88,7 +86,9 @@ namespace Hostile
 
                 Debug.Log("Hazard map");
 
-                map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), Fire);
+                map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), FindObjectOfType<LightningManager>().fire);
+
+                Instantiate(FindObjectOfType<LightningManager>().LightningEffect, target, Quaternion.identity);
             }
 
             yield return null;

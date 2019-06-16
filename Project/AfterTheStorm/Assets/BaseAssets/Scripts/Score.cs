@@ -1,20 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class Score : MonoBehaviour
+﻿public class Score
 {
-    public static int score; //The player's score
-
-    private void Start()
-    {
-        score = 0;
-    }
-
-    private void Update()
-    {
-    }
+    public static int score = 0; //The player's score
 
     public static void Reset()
     {

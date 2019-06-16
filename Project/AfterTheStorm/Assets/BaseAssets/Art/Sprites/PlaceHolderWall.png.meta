@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: 8553692247164499882
     second: brick
+  - first:
+      213: 23260843026204306
+    second: PlaceHolderWall_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -176,6 +179,27 @@ TextureImporter:
       bones: []
       spriteID: 2a263dbc77f900447b428a8692f62f2c
       internalID: -3665338592477453672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlaceHolderWall_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 17
+        width: 6
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90c4925dd1193d34d821a5dc39b0583f
+      internalID: 23260843026204306
       vertices: []
       indices: 
       edges: []

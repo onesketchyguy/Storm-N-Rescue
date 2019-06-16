@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Hostile
 {
     public class LightningManager : MonoBehaviour
     {
         private List<Transform> strikeablePositions = new List<Transform>();
+
+        public GameObject LightningEffect;
+        public TileBase fire;
 
         private void UpdateStrikeablePositions()
         {
@@ -63,7 +67,7 @@ namespace Hostile
                 }
             }
 
-            waitBeforeNextStrike = Random.Range(0.1f, 10f);
+            waitBeforeNextStrike = Random.Range(0.1f, 3f);
         }
     }
 }

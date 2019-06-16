@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    Text scoretext;
+    private Text scoretext;
 
-    void Start()
+    private void Start()
     {
         scoretext = GetComponent<Text>();
     }
 
-
-    void Update()
+    private void Update()
     {
         scoretext.text = "Score: " + Score.score;
+    }
+
+    public void CallReset()
+    {
+        Score.Reset();
     }
 }

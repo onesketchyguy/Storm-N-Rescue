@@ -10,7 +10,8 @@ namespace LowEngine
         [SerializeField] private float DigRange = 0.5f;
         public LayerMask Diggable;
 
-        public GameObject Effect;
+        public GameObject WallEffect;
+        public GameObject FireEffect;
 
         public Vector4 input { get; set; }
         public bool attacking { get; set; }
@@ -64,10 +65,16 @@ namespace LowEngine
 
                 if (tilemap.GetTile(position) != null)
                 {
-                    tilemap.SetTile(position, null);
+                    if (tilemap.GetTile(position).name.ToLower().Contains("fire"))
+                    {
+                        if (FireEffect != null)
+                            Instantiate(FireEffect, position, Quaternion.identity);
+                    }
+                    else
+                    if (WallEffect != null)
+                        Instantiate(WallEffect, position, Quaternion.identity);
 
-                    if (Effect != null)
-                        Instantiate(Effect, position, Quaternion.identity);
+                    tilemap.SetTile(position, null);
                 }
                 else
                 {

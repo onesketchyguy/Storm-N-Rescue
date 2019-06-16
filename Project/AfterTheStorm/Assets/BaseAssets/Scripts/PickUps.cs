@@ -11,6 +11,10 @@ public class PickUps : MonoBehaviour
             gameObject.SetActive(false);
 
             Score.ModifyScore(scoreToAdd);
+
+            //Play sound
+
+            LowEngine.Audio.AudioManager.instance.PlayPickupCoinSound(transform.position);
         }
     }
 }
