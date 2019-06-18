@@ -20,7 +20,7 @@ public class ScoreKeeper : MonoBehaviour
             {
                 scoretext.color = Color.green;
 
-                scoretext.text = $"{score} + {Score.score - score}";
+                scoretext.text = $" {score} + {Score.score - score}";
                 score++;
             }
 
@@ -28,13 +28,13 @@ public class ScoreKeeper : MonoBehaviour
             {
                 scoretext.color = Color.red;
 
-                scoretext.text = $"{score} - {score - Score.score}";
+                scoretext.text = $" {score} - {score - Score.score}";
                 score--;
             }
         }
         else
         {
-            scoretext.text = $"{score}{(score > PlayerPrefs.GetInt("Score", 100) ? " Highscore!" : "")}";
+            scoretext.text = $" {score}{(score > PlayerPrefs.GetInt("Score", 100) ? " Highscore!" : "")}";
             scoretext.color = Color.white;
         }
     }

@@ -225,6 +225,8 @@ MonoBehaviour:
     type: 3}
   FireEffect: {fileID: 3249249782930694768, guid: c4a35db04faf1014699fb4bc9cce1d0d,
     type: 3}
+  GlassEffect: {fileID: 606290687146575174, guid: 535466ae6b443504a8ce6f7f35ac6487,
+    type: 3}
 --- !u!114 &3898925804398256730
 MonoBehaviour:
   m_ObjectHideFlags: 0

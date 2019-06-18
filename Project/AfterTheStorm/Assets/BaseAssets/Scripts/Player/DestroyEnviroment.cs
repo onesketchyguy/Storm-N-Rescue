@@ -12,6 +12,7 @@ namespace LowEngine
 
         public GameObject WallEffect;
         public GameObject FireEffect;
+        public GameObject GlassEffect;
 
         public Vector4 input { get; set; }
         public bool attacking { get; set; }
@@ -83,11 +84,11 @@ namespace LowEngine
         {
             if (tilemap.GetTile(position) != null)
             {
-                if (tilemap.GetTile(position).name.ToLower().Contains("fire"))
-                {
-                    if (FireEffect != null)
-                        Instantiate(FireEffect, position, Quaternion.identity);
-                }
+                if (FireEffect != null && tilemap.GetTile(position).name.ToLower().Contains("fire"))
+                    Instantiate(FireEffect, position, Quaternion.identity);
+                else
+                if (GlassEffect != null && tilemap.GetTile(position).name.ToLower().Contains("window"))
+                    Instantiate(GlassEffect, position, Quaternion.identity);
                 else
                 if (WallEffect != null)
                     Instantiate(WallEffect, position, Quaternion.identity);
