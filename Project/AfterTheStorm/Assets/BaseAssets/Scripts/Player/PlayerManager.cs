@@ -79,7 +79,7 @@ namespace LowEngine
 
             Audio.AudioManager.PlayClip(hurt, transform.position);
 
-            lastHurtSound = Time.time + (hurt.length * 2);
+            lastHurtSound = Time.time + (hurt.length + 0.01f);
         }
     }
 }
