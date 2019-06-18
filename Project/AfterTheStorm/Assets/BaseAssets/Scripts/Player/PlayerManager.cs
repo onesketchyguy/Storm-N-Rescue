@@ -64,6 +64,8 @@ namespace LowEngine
             carrying.GetComponent<Collider2D>().enabled = true;
 
             carrying = null; // Thrown
+
+            LowEngine.Audio.AudioManager.instance.PlayThrowSound(transform.position);
         }
 
         public void Hurt(float damageToDeal)

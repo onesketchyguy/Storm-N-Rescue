@@ -52,13 +52,35 @@ namespace LowEngine.Audio
             PlayClip(clip, fromPoint, distToCam);
         }
 
-        public AudioClip[] DashSounds;
+        public AudioClip[] ClimbSounds;
 
-        public void PlayDashSound(Vector3 fromPoint)
+        public void PlayClimbSound(Vector3 fromPoint)
         {
             float distToCam = GetClipVolume(fromPoint);
 
-            AudioClip clip = DashSounds[Random.Range(0, DashSounds.Length)];
+            AudioClip clip = ClimbSounds[Random.Range(0, ClimbSounds.Length)];
+
+            PlayClip(clip, fromPoint, distToCam);
+        }
+
+        public AudioClip[] PickUpCivilianSounds;
+
+        public void PlayPickUpCivilianSound(Vector3 fromPoint)
+        {
+            float distToCam = GetClipVolume(fromPoint);
+
+            AudioClip clip = ClimbSounds[Random.Range(0, ClimbSounds.Length)];
+
+            PlayClip(clip, fromPoint, distToCam);
+        }
+
+        public AudioClip[] ThrowSounds;
+
+        public void PlayThrowSound(Vector3 fromPoint)
+        {
+            float distToCam = GetClipVolume(fromPoint);
+
+            AudioClip clip = ClimbSounds[Random.Range(0, ClimbSounds.Length)];
 
             PlayClip(clip, fromPoint, distToCam);
         }

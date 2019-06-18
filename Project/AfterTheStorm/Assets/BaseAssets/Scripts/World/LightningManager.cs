@@ -29,11 +29,6 @@ namespace Hostile
 
         private float lastStrike;
 
-        private void Awake()
-        {
-            //lastStrike = waitBeforeNextStrike;
-        }
-
         private void FixedUpdate()
         {
             if (strikeablePositions == null || strikeablePositions.Count == 0)
@@ -63,6 +58,7 @@ namespace Hostile
 
                     UpdateStrikeablePositions();
                     lastStrike = Time.time + waitBeforeNextStrike;
+
                     break;
                 }
             }

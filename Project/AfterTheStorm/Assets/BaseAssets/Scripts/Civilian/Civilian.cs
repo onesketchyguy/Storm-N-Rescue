@@ -54,6 +54,8 @@ namespace Friendly
                 // Being carried
                 sprite = m_sprites.pickedUpSprite;
                 PlayerManager.carrying = this;
+
+                LowEngine.Audio.AudioManager.instance.PlayPickUpCivilianSound(transform.position);
             }
             else
             if (tossed)

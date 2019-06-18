@@ -1,4 +1,5 @@
-﻿using LowEngine.Helpers;
+﻿using LowEngine.Audio;
+using LowEngine.Helpers;
 using UnityEngine;
 
 namespace LowEngine
@@ -261,7 +262,7 @@ namespace LowEngine
                 {
                     currentVelocity.y = JumpHeight;
 
-                    //AudioManager.instance.PlayJumpSound(transform.position);
+                    AudioManager.instance.PlayJumpSound(transform.position);
                 }
                 else
                 if (double_jumped == false)
