@@ -9,7 +9,7 @@ namespace World
 {
     public class FireSpreadManager : MonoBehaviour
     {
-        public TileBase Fire;
+        public TileBase[] Fire;
 
         private List<Vector3Int> flames = new List<Vector3Int>();
 
@@ -72,7 +72,7 @@ namespace World
 
                             if (WallMap.GetTile(spreadPos) != null && HazardMap.GetTile(spreadPos) == null)
                             {
-                                HazardMap.SetTile(spreadPos, Fire);
+                                HazardMap.SetTile(spreadPos, Fire[Random.Range(0, Fire.Length)]);
 
                                 minimumLevel = max;
                                 Debug.Log("Fire Spread");

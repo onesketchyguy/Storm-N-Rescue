@@ -84,7 +84,9 @@ namespace Hostile
                 if (map.name.ToLower().Contains("back")) continue;
                 if (map.name.ToLower().Contains("walk")) continue;
 
-                map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), FindObjectOfType<LightningManager>().fire);
+                var manager = FindObjectOfType<LightningManager>();
+
+                map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), manager.fire[Random.Range(0, manager.fire.Length)]);
 
                 Instantiate(FindObjectOfType<LightningManager>().LightningEffect, target, Quaternion.identity);
             }

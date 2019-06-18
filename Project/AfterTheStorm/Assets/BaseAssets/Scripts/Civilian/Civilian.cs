@@ -16,8 +16,6 @@ namespace Friendly
         public GameObject MurderEffect;
         public GameObject ThrowThroughWindowEffect;
 
-        public AudioClip[] killedSounds;
-
         private Sprite sprite
         {
             get
@@ -123,8 +121,6 @@ namespace Friendly
         {
             Score.ModifyScore(-scoreLossOnDeath);
 
-            LowEngine.Audio.AudioManager.PlayClip(killedSounds[0], transform.position);
-
             Died();
         }
 
@@ -134,8 +130,6 @@ namespace Friendly
             {
                 Instantiate(MurderEffect, transform.position, Quaternion.identity);
             }
-
-            LowEngine.Audio.AudioManager.PlayClip(killedSounds[1], transform.position);
 
             Destroy(gameObject);
         }

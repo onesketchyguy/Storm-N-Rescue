@@ -9,7 +9,7 @@ namespace Hostile
         private List<Transform> strikeablePositions = new List<Transform>();
 
         public GameObject LightningEffect;
-        public TileBase fire;
+        public TileBase[] fire;
 
         private void UpdateStrikeablePositions()
         {
