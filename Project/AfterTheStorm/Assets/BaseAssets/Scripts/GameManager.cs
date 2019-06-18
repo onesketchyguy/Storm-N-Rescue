@@ -31,9 +31,9 @@ namespace LowEngine
 
         private void Update()
         {
-            if (Time.timeSinceLevelLoad < 3) return;
+            if (Time.timeSinceLevelLoad < 4) return;
 
-            if (WelcomeMessage.activeSelf == true)
+            if (WelcomeMessage != null && WelcomeMessage.activeSelf == true)
                 WelcomeMessage.SetActive(false);
 
             if (playerDead && !alreadyLoading)
@@ -53,7 +53,15 @@ namespace LowEngine
         {
             alreadyLoading = true;
 
-            yield return new WaitForSecondsRealtime(3.5f);
+            var soundTrack = GameObject.Find("SoundTrack").GetComponent<AudioSource>();
+
+            while (soundTrack.volume > 0.01f)
+            {
+                soundTrack.volume = Mathf.Lerp(soundTrack.volume, 0, Time.deltaTime);
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(1.5f);
 
             SceneManager.LoadScene(LevelToLoadOnDeath);
         }

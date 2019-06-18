@@ -13,6 +13,8 @@ namespace LowEngine
 
         public static Civilian carrying;
 
+        private float lasthit;
+
         private void Awake()
         {
             Health = new MaxableValue(30);
@@ -29,7 +31,7 @@ namespace LowEngine
         {
             if (carrying != null)
             {
-                if (GetComponent<DestroyEnviroment>().input.y > 0)
+                if (GetComponent<ICombat>().input.y > 0)
                 {
                     ThrowCivilian();
                 }
@@ -38,6 +40,8 @@ namespace LowEngine
                     carrying.transform.position = transform.position;
 
                     carrying.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+                    carrying.GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
 
                     carrying.GetComponent<Collider2D>().enabled = false;
                 }
@@ -50,7 +54,7 @@ namespace LowEngine
 
             carrying.transform.position = transform.position + Vector3.right * faceDir;
 
-            carrying.Toss(Vector2.right * faceDir * 100 + Vector2.up * 10);
+            carrying.Toss(Vector2.right * faceDir * 200 + Vector2.up * 10);
 
             carrying.GetComponent<Collider2D>().enabled = true;
 
@@ -59,9 +63,10 @@ namespace LowEngine
 
         public void Hurt(float damageToDeal)
         {
-            Health.ModifyValue(-damageToDeal);
+            if (lasthit > Time.time) return;
 
-            // Play an animation
+            Health.ModifyValue(-damageToDeal);
+            lasthit = Time.time + (Time.deltaTime * 5); // 5 frame wait between damages
         }
     }
 }

@@ -17,6 +17,9 @@ TextureImporter:
   - first:
       213: 23260843026204306
     second: PlaceHolderWall_0
+  - first:
+      213: -536954487521676053
+    second: Window
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -192,7 +195,7 @@ TextureImporter:
         width: 6
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -200,6 +203,27 @@ TextureImporter:
       bones: []
       spriteID: 90c4925dd1193d34d821a5dc39b0583f
       internalID: 23260843026204306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Window
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35a7769fcac4c3649a92cfb2cd0b250e
+      internalID: -536954487521676053
       vertices: []
       indices: 
       edges: []

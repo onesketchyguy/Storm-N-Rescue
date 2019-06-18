@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3707727920354223144}
   - component: {fileID: 2076646628}
   - component: {fileID: 3898925804398256730}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0a0a36e1062484287046c6bc277490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeathSound: {fileID: 8300000, guid: 9de3eb7ff2dc1754d9f09c1839f9e090, type: 3}
+  DeathSound: {fileID: 8300000, guid: 0461e1c3928a16f4baa81c300cbbba0f, type: 3}
   isDead: 0
   waitBetweenAttack_1: 0.1
   waitBetweenAttack_2: 0.25

@@ -18,6 +18,8 @@ public class Loader : MonoBehaviour
 
     public void LoadScene(string level = "GameScene")
     {
-        SceneManager.LoadScene(level);
+        levelToLoad = level;
+
+        SceneManager.LoadScene(levelToLoad);
     }
 }

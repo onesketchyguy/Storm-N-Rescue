@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2388589794313936067}
   - component: {fileID: 3790849004426465307}
   - component: {fileID: 2991563555190375316}
-  m_Layer: 0
+  - component: {fileID: 3719753118817635613}
+  m_Layer: 9
   m_Name: Villager
   m_TagString: PickUps
   m_Icon: {fileID: 0}
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_Sprite: {fileID: 2488720204588119299, guid: 199182e8f2611ab42a29d9350df487d0,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -96,7 +97,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.026745468}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -107,7 +108,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.55, y: 0.6}
+  m_Size: {x: 0.55, y: 0.5465091}
   m_EdgeRadius: 0
 --- !u!50 &3790849004426465307
 Rigidbody2D:
@@ -147,4 +148,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72d3372c3caf7e640a0ca30faec494c3, type: 2}
   - {fileID: 11400000, guid: 009f1739d5030ed46967baea694a927b, type: 2}
   - {fileID: 11400000, guid: 3d300e8655702824f9b4dccdb2bfa92f, type: 2}
+  MurderEffect: {fileID: 3423132608303465570, guid: 3b08e99b0a4b17845b8ad0b76349162d,
+    type: 3}
+  ThrowThroughWindowEffect: {fileID: 606290687146575174, guid: 535466ae6b443504a8ce6f7f35ac6487,
+    type: 3}
   scoreToAdd: 15
+  scoreLossOnDeath: 10
+--- !u!114 &3719753118817635613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175444395893002335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b69cac055d61684ba8c930e5fd542da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
