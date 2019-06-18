@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4818795835628456166}
   - component: {fileID: 4818795835628456161}
   - component: {fileID: 4818795835628456160}
+  - component: {fileID: 8668989039713080049}
   m_Layer: 0
   m_Name: LightingEffect
   m_TagString: Untagged
@@ -4811,6 +4812,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8668989039713080049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818795835628456163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae843f1e483d824daa1c003a5c14a66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
+  Loop: 0
 --- !u!1 &4818795836648786524
 GameObject:
   m_ObjectHideFlags: 0

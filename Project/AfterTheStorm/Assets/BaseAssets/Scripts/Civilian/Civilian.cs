@@ -16,6 +16,8 @@ namespace Friendly
         public GameObject MurderEffect;
         public GameObject ThrowThroughWindowEffect;
 
+        public AudioClip[] killedSounds;
+
         private Sprite sprite
         {
             get
@@ -31,6 +33,7 @@ namespace Friendly
         public MaxableValue Health { get; set; }
 
         public int scoreToAdd = 15;
+        public int scoreToAdd_WindowBreak = 10;
         public int scoreLossOnDeath = 10;
 
         private void Awake()
@@ -42,7 +45,7 @@ namespace Friendly
             sprite = m_sprites.restingSprite;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionStay2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
@@ -61,8 +64,6 @@ namespace Friendly
                 {
                     var rb = GetComponent<Rigidbody2D>();
 
-                    Debug.Log(rb.velocity);
-
                     var xVel = rb.velocity.x > 0 ? 0 : -2;
 
                     var velocity_pos = new Vector3Int((int)(transform.position.x + xVel), (int)(transform.position.y), 0);
@@ -72,12 +73,14 @@ namespace Friendly
                     {
                         Map.SetTile(velocity_pos, null);
 
+                        rb.velocity = new Vector2(xVel * 5, 0);
+
                         if (ThrowThroughWindowEffect != null)
                         {
-                            Instantiate(ThrowThroughWindowEffect, transform.position, Quaternion.identity);
-                        }
+                            scoreToAdd = scoreToAdd_WindowBreak;
 
-                        rb.velocity = new Vector2(xVel * 5, 0);
+                            Instantiate(ThrowThroughWindowEffect, transform.position, ThrowThroughWindowEffect.transform.rotation);
+                        }
 
                         return;
                     }
@@ -118,6 +121,8 @@ namespace Friendly
         {
             Score.ModifyScore(-scoreLossOnDeath);
 
+            LowEngine.Audio.AudioManager.PlayClip(killedSounds[0], transform.position);
+
             Died();
         }
 
@@ -127,6 +132,8 @@ namespace Friendly
             {
                 Instantiate(MurderEffect, transform.position, Quaternion.identity);
             }
+
+            LowEngine.Audio.AudioManager.PlayClip(killedSounds[1], transform.position);
 
             Destroy(gameObject);
         }

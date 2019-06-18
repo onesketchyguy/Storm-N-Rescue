@@ -24,7 +24,7 @@ namespace World
 
         private float lastMovement;
 
-        private Transform SetClosestDoor(Transform measureFrom)
+        public Transform GetClosestDoor(Transform measureFrom)
         {
             var closest = measureFrom;
 
@@ -56,7 +56,7 @@ namespace World
 
                 if (door == null) continue;
 
-                if (door.ClosestDoorToMe == null) door.ClosestDoorToMe = SetClosestDoor(door.transform);
+                if (door.ClosestDoorToMe == null) door.ClosestDoorToMe = GetClosestDoor(door.transform);
                 if (Vector2.Distance(door.transform.position, Player.transform.position) <= range)
                 {
                     if (Player.GetComponent<IMovement>().input.z < 0) // pressed down

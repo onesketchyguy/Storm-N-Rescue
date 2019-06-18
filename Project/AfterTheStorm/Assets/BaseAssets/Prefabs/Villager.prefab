@@ -93,7 +93,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 8175444395893002335}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1702957e91992b64293254f5e34958d3, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -152,7 +152,11 @@ MonoBehaviour:
     type: 3}
   ThrowThroughWindowEffect: {fileID: 606290687146575174, guid: 535466ae6b443504a8ce6f7f35ac6487,
     type: 3}
+  killedSounds:
+  - {fileID: 8300000, guid: 9b937d0b6ef3d744e92d0ecdce2bec09, type: 3}
+  - {fileID: 8300000, guid: 9219233f3293a4e4992e0b9ddb572865, type: 3}
   scoreToAdd: 15
+  scoreToAdd_WindowBreak: 10
   scoreLossOnDeath: 10
 --- !u!114 &3719753118817635613
 MonoBehaviour:

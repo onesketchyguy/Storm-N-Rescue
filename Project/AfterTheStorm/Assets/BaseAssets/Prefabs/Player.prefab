@@ -54,7 +54,7 @@ MonoBehaviour:
   Collisions:
     serializedVersion: 2
     m_Bits: 4294967295
-  GroundedHorizontalSpeed: 5
+  GroundedHorizontalSpeed: 7
   RunSpeed: 8
   AirialHorizontalSpeed: 3
   DashSpeed: 5
@@ -63,8 +63,8 @@ MonoBehaviour:
   MaxFallDistance: 10
   groundCheckDist: 0.2
   timeBeforeResetting: 3
-  accelerationSpeed: 0.4
-  decelerationSpeed: 0.1
+  accelerationSpeed: 0.1
+  decelerationSpeed: 0.05
   maxSpeed: {x: 10, y: 25}
   fallMultiplier: 3
   lowJumpMultiplier: 2.5
@@ -128,7 +128,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 3707727920354223121}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a883cb8a87b13ec4bb8f562be11eb670, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -237,3 +237,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c286b103a3a79542b6c03c8196b77e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hurt: {fileID: 8300000, guid: ff013caafb31fdf4f8f4d4eac3977de1, type: 3}

@@ -4,19 +4,31 @@ namespace World
 {
     public class Door : MonoBehaviour
     {
-        public Transform ClosestDoorToMe { get; set; }
+        public Transform _ClosestDoorToMe;
+
+        public Transform ClosestDoorToMe
+        {
+            get { return _ClosestDoorToMe; }
+            set
+            {
+                if (value != transform)
+                {
+                    _ClosestDoorToMe = value;
+                }
+            }
+        }
 
         public float range { get; set; } = 0.5f;
 
         public void Move(Transform objectToMove)
         {
-            if (ClosestDoorToMe != transform)
+            if (ClosestDoorToMe != null)
             {
                 objectToMove.position = ClosestDoorToMe.transform.position + Vector3.up * 0.5f;
             }
             else
             {
-                ClosestDoorToMe = null;
+                ClosestDoorToMe = FindObjectOfType<DoorManager>().GetClosestDoor(transform);
 
                 Debug.LogError("Unable to move player!");
             }
