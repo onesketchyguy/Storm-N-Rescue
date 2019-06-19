@@ -26,7 +26,7 @@ namespace World
             {
                 objectToMove.position = ClosestDoorToMe.transform.position + Vector3.up * 0.5f;
 
-                LowEngine.Audio.AudioManager.instance.PlayClimbSound(transform.position);
+                LowEngine.Audio.AudioManager.instance.PlayClimbSound(Camera.main.transform.position);
             }
             else
             {

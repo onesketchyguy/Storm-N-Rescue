@@ -1,7 +1,7 @@
 {
 "companyName": "DefaultCompany",
 "productName": "StormN'Rescue",
-"productVersion": "0.4",
+"productVersion": "0.5",
 "dataUrl": "WebBuild.data.unityweb",
 "wasmCodeUrl": "WebBuild.wasm.code.unityweb",
 "wasmFrameworkUrl": "WebBuild.wasm.framework.unityweb",

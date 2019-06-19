@@ -69,7 +69,7 @@ namespace LowEngine.Audio
         {
             float distToCam = GetClipVolume(fromPoint);
 
-            AudioClip clip = ClimbSounds[Random.Range(0, ClimbSounds.Length)];
+            AudioClip clip = PickUpCivilianSounds[Random.Range(0, PickUpCivilianSounds.Length)];
 
             PlayClip(clip, fromPoint, distToCam);
         }
@@ -80,7 +80,7 @@ namespace LowEngine.Audio
         {
             float distToCam = GetClipVolume(fromPoint);
 
-            AudioClip clip = ClimbSounds[Random.Range(0, ClimbSounds.Length)];
+            AudioClip clip = ThrowSounds[Random.Range(0, ThrowSounds.Length)];
 
             PlayClip(clip, fromPoint, distToCam);
         }
