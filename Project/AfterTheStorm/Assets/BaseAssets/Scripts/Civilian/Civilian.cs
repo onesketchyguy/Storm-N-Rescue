@@ -99,7 +99,7 @@ namespace Friendly
 
         private void Update()
         {
-            if (tossed)
+            if (tossed || GetComponent<Rigidbody2D>().velocity != Vector2.zero)
             {
                 if (transform.position.y < Utilities.ScreenMin.y - 1)
                 {
@@ -110,6 +110,8 @@ namespace Friendly
 
         private void HitGround()
         {
+            if (tossed == false) scoreToAdd = 5;
+
             Score.ModifyScore(scoreToAdd);
 
             //Play sound

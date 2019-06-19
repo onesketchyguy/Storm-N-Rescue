@@ -69,7 +69,7 @@ namespace LowEngine
 
             for (int y = (int)transform.position.y - 1; y < (int)transform.position.y + 1; y++)
             {
-                for (int x = (int)transform.position.x - 2; x < (int)transform.position.x + 1; x++)
+                for (int x = (int)transform.position.x - 2; x < (int)transform.position.x + 2; x++)
                 {
                     Vector3Int position = new Vector3Int(x, y, 0);
 

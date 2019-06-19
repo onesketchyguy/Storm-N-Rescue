@@ -39,9 +39,11 @@ namespace LowEngine.LayerGeneration
 
         public GameObject Door;
 
+        private int layers;
+
         private void Start()
         {
-            offSet = new Vector3(size.x / 2, 0);
+            offSet = new Vector3(size.x / 2, -1); // Move the offset down so we can work with the next layer up next time.
 
             GenerateLayer();
         }
@@ -90,28 +92,33 @@ namespace LowEngine.LayerGeneration
                 {
                     Vector3Int pos = new Vector3Int((int)(x - offSet.x), (int)(y + offSet.y), 0); // Store the position so we can us it again later.
 
-                    if (y > 0)
+                    if (x == 0 || x == size.x - 1) // walls
                     {
-                        if (x == 0 || x == size.x - 1) // walls
+                        if (y == 1 && x == 0)
                         {
-                            if (y == 1 && x == 0)
-                            {
+                            if (layers != 0)
                                 WalkableMap.SetTile(pos, Window);
-                            }
                             else
                             {
                                 WalkableMap.SetTile(pos, Wall);
                             }
-
-                            WallMap.SetTile(pos, Wall);
                         }
                         else
-                        if (y == size.y - 1) // cieling
                         {
                             WalkableMap.SetTile(pos, Wall);
-                            WallMap.SetTile(pos, BlankTile);
                         }
-                        else
+
+                        WallMap.SetTile(pos, Wall);
+                    }
+                    else
+                    if (y == size.y - 1) // cieling
+                    {
+                        WalkableMap.SetTile(pos, Wall);
+                        WallMap.SetTile(pos, BlankTile);
+                    }
+                    else
+                    {
+                        if (y != 0)
                         {
                             //Inside the building
                             var placeDoor = (int)Random.Range(0, size.x) == 1 || x == size.x - 2;
@@ -150,18 +157,8 @@ namespace LowEngine.LayerGeneration
                                     civsPlaced++;
                                 }
                             }
-
-                            WallMap.SetTile(pos, InnerBuilding);
                         }
-                    }
-                    else
-                    if (x == 0 || x == size.x - 1)
-                    {
-                        WallMap.SetTile(pos, Wall);
-                        WalkableMap.SetTile(pos, Wall);
-                    }
-                    else
-                    {
+
                         WallMap.SetTile(pos, InnerBuilding);
                     }
                 }
@@ -170,6 +167,8 @@ namespace LowEngine.LayerGeneration
             offSet = new Vector3(size.x / 2, offSet.y + size.y - 1); // Move the offset down so we can work with the next layer up next time.
 
             generating = false;
+
+            layers++;
         }
 
         private int minimumLevel;

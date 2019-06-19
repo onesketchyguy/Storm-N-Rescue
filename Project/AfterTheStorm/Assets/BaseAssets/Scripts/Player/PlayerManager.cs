@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LowEngine
 {
@@ -12,8 +10,6 @@ namespace LowEngine
         public MaxableValue Health { get; set; }
 
         public static Civilian carrying;
-
-        private float lasthit;
 
         public AudioClip hurt;
         private float lastHurtSound;
@@ -70,18 +66,15 @@ namespace LowEngine
 
         public void Hurt(float damageToDeal)
         {
-            if (lasthit > Time.time) return;
-
-            Health.ModifyValue(-damageToDeal);
-            lasthit = Time.time + (Time.deltaTime * 5); // 5 frame wait between damages
-
-            if (Health.empty) ThrowCivilian();
-
             if (lastHurtSound > Time.time) return;
 
             Audio.AudioManager.PlayClip(hurt, transform.position);
 
             lastHurtSound = Time.time + (hurt.length + 0.01f);
+
+            Health.ModifyValue(-damageToDeal);
+
+            if (Health.empty) ThrowCivilian();
         }
     }
 }

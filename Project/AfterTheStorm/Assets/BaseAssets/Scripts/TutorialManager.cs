@@ -99,7 +99,7 @@ namespace LowEngine.Helpers
             if (loadTime > attackKey && timesAttacked < 1)
             {
                 // Display Attack key.
-                ShowMessage("Press C or left click to break walls.");
+                ShowMessage("Press C or left click to break walls and fight fires.");
             }
             else
             {
