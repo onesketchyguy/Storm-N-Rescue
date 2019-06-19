@@ -7,6 +7,9 @@ public class ScoreKeeper : MonoBehaviour
 
     private int score;
 
+    private const string highScore = "HighScore";
+    private const string lowScore = "LowScore";
+
     private void Start()
     {
         scoretext = GetComponent<Text>();
@@ -34,14 +37,18 @@ public class ScoreKeeper : MonoBehaviour
         }
         else
         {
-            scoretext.text = $" {score}{(score > PlayerPrefs.GetInt("Score", 100) ? " Highscore!" : "")}";
+            string HighScoreCheck = score > PlayerPrefs.GetInt(highScore, 100) ? " New Highscore!" : "";
+            string LowScoreCheck = score < PlayerPrefs.GetInt(lowScore, -50) ? " New Lowscore!" : "";
+
+            scoretext.text = $" {score}{(HighScoreCheck != "" ? HighScoreCheck : LowScoreCheck)}";
             scoretext.color = Color.white;
         }
     }
 
     public void CallReset()
     {
-        if (Score.score > PlayerPrefs.GetInt("Score", 100)) PlayerPrefs.SetInt("Score", Score.score);
+        if (Score.score > PlayerPrefs.GetInt(highScore)) PlayerPrefs.SetInt(highScore, Score.score);
+        if (Score.score < PlayerPrefs.GetInt(lowScore)) PlayerPrefs.SetInt(lowScore, Score.score);
 
         Score.Reset();
     }
