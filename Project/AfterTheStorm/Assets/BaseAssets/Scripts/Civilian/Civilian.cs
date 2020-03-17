@@ -11,6 +11,8 @@ namespace Friendly
 
         private CivilianSprites m_sprites;
 
+        public new SpriteRenderer renderer;
+
         private bool tossed;
 
         public GameObject MurderEffect;
@@ -20,11 +22,11 @@ namespace Friendly
         {
             get
             {
-                return GetComponent<SpriteRenderer>().sprite;
+                return renderer.sprite;
             }
             set
             {
-                GetComponent<SpriteRenderer>().sprite = value;
+                renderer.sprite = value;
             }
         }
 
@@ -34,9 +36,13 @@ namespace Friendly
         public int scoreToAdd_WindowBreak = 10;
         public int scoreLossOnDeath = 10;
 
+        public float tossedOutWindowVelocity = 5;
+
         private void Awake()
         {
             Health = new MaxableValue(5);
+
+            if (renderer == null) renderer = GetComponent<SpriteRenderer>();
 
             // Load in a sprite
             m_sprites = possibleSprites[Random.Range(0, possibleSprites.Length)];
@@ -55,7 +61,10 @@ namespace Friendly
 
                 LowEngine.Audio.AudioManager.instance.PlayPickUpCivilianSound(transform.position);
             }
-            else
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
             if (tossed)
             {
                 var Map = collision.gameObject.GetComponent<Tilemap>();
@@ -64,32 +73,42 @@ namespace Friendly
                 {
                     var rb = GetComponent<Rigidbody2D>();
 
-                    var xVel = rb.velocity.x > 0 ? 0 : -2;
-
-                    var velocity_pos = new Vector3Int((int)(transform.position.x + xVel), (int)(transform.position.y), 0);
-                    var pos = new Vector3Int((int)transform.position.x, (int)transform.position.y - 1, 0);
-
-                    if (Map.GetTile(velocity_pos) != null && Map.GetTile(velocity_pos).name.Contains("Window"))
+                    if (rb.velocity.y > -1f)
                     {
-                        Map.SetTile(velocity_pos, null);
+                        var velocity_pos = new Vector3Int(Mathf.FloorToInt(transform.position.x - 2), Mathf.FloorToInt(transform.position.y), 0);
+                        BoundsInt blockPos = new BoundsInt(velocity_pos, new Vector3Int(5, 2, 1));
 
-                        rb.velocity = new Vector2(xVel * 5, 0);
-
-                        if (ThrowThroughWindowEffect != null)
+                        foreach (var point in blockPos.allPositionsWithin)
                         {
-                            scoreToAdd = scoreToAdd_WindowBreak;
+                            var item = Map.GetTile(point);
 
-                            Instantiate(ThrowThroughWindowEffect, transform.position, ThrowThroughWindowEffect.transform.rotation);
+                            if (item != null && item.name.Contains("Window"))
+                            {
+                                Map.SetTile(point, null);
+
+                                var newVel = renderer.flipX ? tossedOutWindowVelocity : -tossedOutWindowVelocity;
+
+                                rb.velocity = new Vector2(newVel, 0);
+
+                                if (ThrowThroughWindowEffect != null)
+                                {
+                                    scoreToAdd = scoreToAdd_WindowBreak;
+
+                                    Instantiate(ThrowThroughWindowEffect, transform.position, ThrowThroughWindowEffect.transform.rotation);
+                                }
+
+                                return;
+                            }
                         }
 
-                        return;
-                    }
+                        var myPos = new Vector3Int((int)transform.position.x, (int)transform.position.y - 1, 0);
 
-                    if (Map.GetTile(pos) != null && Map.GetTile(pos).name.Contains("Ground"))
-                    {
-                        HitGround();
+                        if (Map.GetTile(myPos) != null && Map.GetTile(myPos).name.Contains("Ground"))
+                        {
+                            HitGround();
 
-                        return;
+                            return;
+                        }
                     }
                 }
 
@@ -99,6 +118,8 @@ namespace Friendly
 
         private void Update()
         {
+            if (Time.timeSinceLevelLoad < 5) return;
+
             if (tossed || GetComponent<Rigidbody2D>().velocity != Vector2.zero)
             {
                 if (transform.position.y < Utilities.ScreenMin.y - 1)

@@ -30,7 +30,7 @@ namespace World
             HazardMap = Generator.HazardMap;
             WallMap = Generator.WallMap;
 
-            InvokeRepeating("SpreadFire", 5, 1);
+            InvokeRepeating(nameof(SpreadFire), 5, 1);
         }
 
         private void SpreadFire()
@@ -75,7 +75,6 @@ namespace World
                                 HazardMap.SetTile(spreadPos, Fire[Random.Range(0, Fire.Length)]);
 
                                 minimumLevel = max;
-                                Debug.Log("Fire Spread");
 
                                 placed = true;
                             }

@@ -8,7 +8,11 @@ namespace Hostile
     [RequireComponent(typeof(LineRenderer))]
     public class Lightning : MonoBehaviour
     {
+        public Tilemap HazardMap;
+
         private LineRenderer _renderer;
+
+        private LightningManager lightningManager;
 
         public bool Active
         {
@@ -26,6 +30,15 @@ namespace Hostile
         private void Awake()
         {
             _renderer = GetComponent<LineRenderer>();
+            lightningManager = FindObjectOfType<LightningManager>();
+
+            if (HazardMap == null)
+                foreach (var item in FindObjectsOfType<Tilemap>())
+                    if (item.name.ToLower().Contains("hazard"))
+                    {
+                        HazardMap = item;
+                        break;
+                    }
 
             Reset();
         }
@@ -42,30 +55,40 @@ namespace Hostile
 
         public void StrikePoint(Vector3 position)
         {
-            _renderer.positionCount = Random.Range(10, 20);
+            _renderer.positionCount = Random.Range(10, 20); // Number of bends in the lightning
 
-            var startPos = Utilities.ScreenMax * 2 + (Vector3.right * Random.Range(-Utilities.ScreenMax.x * 2, 0));
+            for (int i = 0; i < _renderer.positionCount; i++)
+            {
+                _renderer.SetPosition(i, Utilities.ScreenMax);
+            }
+
+            /*_renderer.positionCount = Random.Range(10, 20); // Number of bends in the lightning
+
+            var startPos = position + (Utilities.ScreenMax * 2 + (Vector3.right * Random.Range(-Utilities.ScreenMax.x * 2, 0)));
 
             for (int i = 0; i < _renderer.positionCount - 1; i++)
             {
                 _renderer.SetPosition(i, startPos);
             }
+            */
 
             StartCoroutine(LightningEffect(position));
         }
 
         private IEnumerator LightningEffect(Vector3 target)
         {
-            for (int i = 0; i < _renderer.positionCount - 1; i++)
+            var length = _renderer.positionCount - 1;
+
+            for (int i = 0; i <= length; i++)
             {
-                yield return new WaitForSeconds(i * 0.01f);
+                yield return new WaitForSeconds(i * 0.001f); // Just a cool effect, is slower when farther away
 
                 var maxDist = Vector3.Distance(_renderer.GetPosition(i), target) - (_renderer.positionCount - i);
 
                 var x_range = Random.Range(.5f, 3f);
                 var y_range = Random.Range(.5f, 1.5f);
 
-                if (i != _renderer.positionCount - 1 && i != 0)
+                if (i != length && i != 0)
                 {
                     var pos = Vector3.MoveTowards(_renderer.GetPosition(i), target + new Vector3(Random.Range(-x_range, x_range), Random.Range(-y_range, y_range)), maxDist);
 
@@ -79,17 +102,10 @@ namespace Hostile
             }
 
             // Explode
-            foreach (var map in FindObjectsOfType<Tilemap>())
-            {
-                if (map.name.ToLower().Contains("back")) continue;
-                if (map.name.ToLower().Contains("walk")) continue;
-
-                var manager = FindObjectOfType<LightningManager>();
-
-                map.SetTile(new Vector3Int((int)target.x, (int)target.y, (int)target.z), manager.fire[Random.Range(0, manager.fire.Length)]);
-
-                Instantiate(FindObjectOfType<LightningManager>().LightningEffect, target, Quaternion.identity);
-            }
+            lightningManager = FindObjectOfType<LightningManager>();
+            HazardMap.SetTile(new Vector3Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y), Mathf.FloorToInt(target.z)),
+                lightningManager.fire[Random.Range(0, lightningManager.fire.Length)]);
+            Instantiate(lightningManager.LightningEffect, target, Quaternion.identity);
 
             yield return null;
 

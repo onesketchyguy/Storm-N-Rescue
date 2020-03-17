@@ -22,47 +22,53 @@ namespace World
 
         public float range = 0.5f;
 
+        [Range(5, 100)]
+        public float doorCheckRange = 10;
+
         private float lastMovement;
 
-        public Transform GetClosestDoor(Transform measureFrom)
+        public Vector3 GetClosestDoor(Vector3 measureFrom)
         {
             var closest = measureFrom;
 
-            foreach (var item in FindObjectsOfType<Door>())
+            foreach (var item in doors)
             {
-                var distToClosest = closest == measureFrom ? 100 : Vector2.Distance(transform.position, closest.position);
-                var distToItem = Vector2.Distance(transform.position, item.transform.position);
+                var distToClosest = closest == measureFrom ? doorCheckRange : Vector2.Distance(transform.position, closest);
+                var distToItem = Vector2.Distance(transform.position, item);
 
-                if (distToClosest > distToItem && item.transform.position.y > measureFrom.position.y) // Ensure they are above us
+                if (distToClosest > distToItem && item.y > measureFrom.y) // Ensure they are above us
                 {
-                    closest = item.transform;
+                    closest = item;
                 }
             }
 
             return closest;
         }
 
-        private List<Door> doors = new List<Door>();
+        internal List<Vector3> doors = new List<Vector3>();
 
-        private void UpdateDoors()
+        private void GetPlayerDistanceToDoor()
         {
             RemoveHiddenDoors();
 
             if (lastMovement + 0.5f > Time.time) return;
 
-            for (int i = 0; i < doors.Count; i++)
+            for (int i = 0; i < doors.Count - 1; i++)
             {
-                Door door = doors[i];
+                if (lastMovement + 0.5f > Time.time) break;
+
+                var door = doors[i];
 
                 if (door == null) continue;
 
-                if (door.ClosestDoorToMe == null) door.ClosestDoorToMe = GetClosestDoor(door.transform);
-                if (Vector2.Distance(door.transform.position, Player.transform.position) <= range)
+                if (Vector2.Distance(door, Player.transform.position) <= range)
                 {
                     if (Player.GetComponent<IMovement>().input.z < 0) // pressed down
                     {
                         // Take player to next door up
-                        door.Move(Player.transform);
+                        var floorOffset = Vector3.up * 0.5f;
+                        Player.transform.position = doors[i + 1] + floorOffset;
+                        LowEngine.Audio.AudioManager.instance.PlayClimbSound(Camera.main.transform.position);
 
                         lastMovement = Time.time;
                     }
@@ -70,51 +76,32 @@ namespace World
             }
         }
 
-        private void UpdateDoorCount()
-        {
-            doors.Clear();
-
-            var _Doors = FindObjectsOfType<Door>();
-
-            foreach (var item in _Doors)
-            {
-                if (!doors.Contains(item))
-                    doors.Add(item);
-            }
-        }
-
         private void RemoveHiddenDoors()
         {
-            var toDestroy = new List<GameObject>();
-
-            foreach (var item in doors)
+            for (int i = doors.Count - 1; i >= 0; i--)
             {
-                if (item == null) continue;
-
-                if (item.transform.position.y < Utilities.ScreenMin.y - 2)
+                var item = doors[i];
+                if (item == null)
                 {
-                    toDestroy.Add(item.gameObject);
+                    doors.RemoveAt(i);
+
+                    continue;
+                }
+
+                if (item.y < Utilities.ScreenMin.y - 2)
+                {
+                    //Destroy(item); // Remove the doors that are below the scrren
+
+                    doors.RemoveAt(i);
                 }
             }
-
-            foreach (var item in toDestroy)
-            {
-                Destroy(item);
-            }
-
-            if (toDestroy.Count > 0) UpdateDoorCount();
-        }
-
-        private void Awake()
-        {
-            Invoke("UpdateDoorCount", 1);
         }
 
         private void FixedUpdate()
         {
             if (Time.timeSinceLevelLoad < 4) return;
 
-            UpdateDoors();
+            GetPlayerDistanceToDoor();
         }
     }
 }
