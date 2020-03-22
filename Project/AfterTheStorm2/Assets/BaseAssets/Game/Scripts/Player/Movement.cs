@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace LowEngine
 {
-    /// <summary>
-    /// Allows for both arial and ground movement, including a ground pound, and can feed fall damage.
-    /// </summary>
     public class Movement : MonoBehaviour, IMovement
     {
         #region IMovement items
@@ -18,6 +15,8 @@ namespace LowEngine
         public TakeDamage fallDamageCallback { get; set; }
 
         #endregion IMovement items
+
+        public Vector3 v;
 
         private Vector4 lastInput;
 
@@ -42,26 +41,23 @@ namespace LowEngine
         {
             var velocity = rigidbody.velocity;
 
-            velocity -= (Vector3)lastInput;
-
             // Add the user input
-            var xMove = (input.x * speed);
-            velocity += new Vector3(xMove, 0, 0);
+            var move = new Vector3(input.x * speed, 0, 0);
+            velocity = Vector3.Lerp(velocity, move, Mathf.Abs(Physics.gravity.y * 100) * Time.deltaTime);
 
             // Move in that direction (visual only)
-            var leanAmount = ((-input.x * 2) + -currentSpeed.x);
-            rigidbody.rotation = Quaternion.Euler(transform.forward * leanAmount * Time.deltaTime);
+            var leanAmount = ((-input.x * 2) - currentSpeed.x) * Time.deltaTime;
+            rigidbody.rotation = Quaternion.Euler(transform.forward * leanAmount);
 
             // Face in the direction we are moving (visual kinda stuff)
-            if (input.x != 0)
-                movingRight = (velocity.x > 0);
-
+            if (input.x != 0) movingRight = (velocity.x > 0);
             transform.localScale = new Vector3(movingRight ? 1 : -1, 1, 1);
 
             // Set the variables
             rigidbody.velocity = currentSpeed = velocity;
+            lastInput = move;
 
-            lastInput = new Vector4(xMove, 0, 0);
+            v = velocity;
         }
     }
 }
