@@ -9,9 +9,9 @@ namespace LowEngine
     {
         private void FixedUpdate()
         {
-            if (Time.timeSinceLevelLoad < 30) return;
+            if (Time.timeSinceLevelLoad <= 10) return;
 
-            if (transform.position.y < Utilities.ScreenMin.y - 5)
+            if (transform.position.y < Utilities.ScreenMin.y)
             {
                 Destroy(gameObject);
             }

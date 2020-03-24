@@ -94,6 +94,8 @@ namespace LowEngine
         {
             get
             {
+                if (timeToDoubleTap <= 0) return false;
+
                 int H = (int)input.x;
 
                 if (Mathf.Abs(H) == 1 && LastInput == 0)

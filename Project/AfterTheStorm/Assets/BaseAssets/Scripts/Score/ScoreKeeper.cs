@@ -3,22 +3,29 @@ using UnityEngine;
 
 public class ScoreKeeper : MonoBehaviour
 {
-    private Text scoretext;
+    public Text scoretext;
+    public Text reasonText;
 
     private int score;
 
     private const string highScore = "HighScore";
     private const string lowScore = "LowScore";
 
-    private void Start()
-    {
-        scoretext = GetComponent<Text>();
-    }
+    private float messageTime;
 
     private void Update()
     {
+        if (reasonText != null)
+            reasonText.color = scoretext.color;
+
         if (score != Score.score)
         {
+            if (reasonText != null)
+            {
+                reasonText.text = Score.reason;
+                messageTime = Time.time + 1;
+            }
+
             if (Score.score > score) // Adding score
             {
                 scoretext.color = Color.green;
@@ -42,6 +49,9 @@ public class ScoreKeeper : MonoBehaviour
 
             scoretext.text = $" {score}{(HighScoreCheck != "" ? HighScoreCheck : LowScoreCheck)}";
             scoretext.color = Color.white;
+
+            if (reasonText != null && messageTime < Time.time)
+                reasonText.text = "";
         }
     }
 

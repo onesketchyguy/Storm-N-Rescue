@@ -58,7 +58,7 @@ MonoBehaviour:
   RunSpeed: 8
   AirialHorizontalSpeed: 3
   DashSpeed: 5
-  timeToDoubleTap: 0.2
+  timeToDoubleTap: 0
   JumpHeight: 0
   MaxFallDistance: 10
   groundCheckDist: 0.2

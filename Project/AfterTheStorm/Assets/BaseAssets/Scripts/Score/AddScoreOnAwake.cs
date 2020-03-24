@@ -4,8 +4,10 @@ public class AddScoreOnAwake : MonoBehaviour
 {
     public int scoreToAdd = 10;
 
+    public string reason = "";
+
     private void Awake()
     {
-        Score.ModifyScore(scoreToAdd);
+        Score.ModifyScore(scoreToAdd, reason);
     }
 }

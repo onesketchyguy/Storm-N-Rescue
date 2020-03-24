@@ -7,7 +7,7 @@ namespace LowEngine
 {
     public class GameManager : MonoBehaviour
     {
-        private PlayerManager player
+        internal PlayerManager player
         {
             get
             {
@@ -15,7 +15,7 @@ namespace LowEngine
             }
         }
 
-        private bool playerDead
+        internal bool playerDead
         {
             get
             {
@@ -25,6 +25,8 @@ namespace LowEngine
             }
         }
 
+        public static GameManager instance;
+
         public string LevelToLoadOnDeath = "WinScreen";
 
         public GameObject WelcomeMessage;
@@ -32,6 +34,11 @@ namespace LowEngine
 #if UNITY_STANDALONE
         private float quitTime;
 #endif
+
+        private void Start()
+        {
+            instance = this;
+        }
 
         private void Update()
         {

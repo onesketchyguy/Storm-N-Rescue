@@ -219,8 +219,6 @@ namespace LowEngine.LayerGeneration
                                     break;
                             }
 
-                            Debug.Log(spawns[x - 1]);
-
                             if (_continue) continue;
                         }
 

@@ -4826,6 +4826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreToAdd: 5
+  reason: Put out fire
 --- !u!114 &-3754506378891121599
 MonoBehaviour:
   m_ObjectHideFlags: 0

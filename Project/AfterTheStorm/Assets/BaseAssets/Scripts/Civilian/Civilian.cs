@@ -14,6 +14,8 @@ namespace Friendly
         public new SpriteRenderer renderer;
 
         private bool tossed;
+        private bool fallingWithOther;
+        private bool naturalDeath;
 
         public GameObject MurderEffect;
         public GameObject ThrowThroughWindowEffect;
@@ -65,6 +67,11 @@ namespace Friendly
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (collision.gameObject.tag == "PickUps" || collision.gameObject.tag == "Player")
+            {
+                fallingWithOther = true;
+            }
+
             if (tossed)
             {
                 var Map = collision.gameObject.GetComponent<Tilemap>();
@@ -129,20 +136,32 @@ namespace Friendly
             }
         }
 
+        private void OnDestroy()
+        {
+            if (!naturalDeath && GameManager.instance.playerDead == false)
+                HitGround();
+        }
+
         private void HitGround()
         {
-            if (tossed == false) scoreToAdd = 5;
+            if (fallingWithOther == true) scoreToAdd = 5;
+            else if (tossed == false)
+            {
+                Murdered("Civilian left behind!");
 
-            Score.ModifyScore(scoreToAdd);
+                return;
+            }
+
+            Score.ModifyScore(scoreToAdd, "Civilian rescued!");
 
             //Play sound
             LowEngine.Audio.AudioManager.instance.PlayPickupCoinSound(transform.position);
             Destroy(gameObject);
         }
 
-        private void Murdered()
+        private void Murdered(string murderReason)
         {
-            Score.ModifyScore(-scoreLossOnDeath);
+            Score.ModifyScore(-scoreLossOnDeath, murderReason);
 
             Died();
         }
@@ -153,6 +172,8 @@ namespace Friendly
             {
                 Instantiate(MurderEffect, transform.position, Quaternion.identity);
             }
+
+            naturalDeath = true;
 
             Destroy(gameObject);
         }
@@ -170,7 +191,7 @@ namespace Friendly
 
             if (Health.empty)
             {
-                if (tossed) Murdered();
+                if (tossed) Murdered("Civilian killed!");
                 else Died();
             }
         }
