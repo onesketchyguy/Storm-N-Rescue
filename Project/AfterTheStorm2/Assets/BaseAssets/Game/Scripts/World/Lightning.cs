@@ -8,7 +8,7 @@ namespace Hostile
     [RequireComponent(typeof(LineRenderer))]
     public class Lightning : MonoBehaviour
     {
-        public Tilemap HazardMap;
+        //public Tilemap HazardMap;
 
         private LineRenderer _renderer;
 
@@ -32,13 +32,14 @@ namespace Hostile
             _renderer = GetComponent<LineRenderer>();
             lightningManager = FindObjectOfType<LightningManager>();
 
+            /*
             if (HazardMap == null)
                 foreach (var item in FindObjectsOfType<Tilemap>())
                     if (item.name.ToLower().Contains("hazard"))
                     {
                         HazardMap = item;
                         break;
-                    }
+                    }*/
 
             Reset();
         }
@@ -103,9 +104,11 @@ namespace Hostile
 
             // Explode
             lightningManager = FindObjectOfType<LightningManager>();
-            HazardMap.SetTile(new Vector3Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y), Mathf.FloorToInt(target.z)),
-                lightningManager.fire[Random.Range(0, lightningManager.fire.Length)]);
-            Instantiate(lightningManager.LightningEffect, target, Quaternion.identity);
+            //HazardMap.SetTile(new Vector3Int(Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y), Mathf.FloorToInt(target.z)),
+            //lightningManager.fire[Random.Range(0, lightningManager.fire.Length)]);
+
+            if (lightningManager.lightningEffect != null)
+                Instantiate(lightningManager.lightningEffect, target, Quaternion.identity);
 
             yield return null;
 

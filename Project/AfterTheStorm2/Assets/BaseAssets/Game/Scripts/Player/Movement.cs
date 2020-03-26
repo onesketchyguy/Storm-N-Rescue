@@ -42,7 +42,7 @@ namespace LowEngine
             var velocity = rigidbody.velocity;
 
             // Add the user input
-            var move = new Vector3(input.x * speed, 0, 0);
+            var move = new Vector3(input.x * speed, velocity.y, 0);
             velocity = Vector3.Lerp(velocity, move, Mathf.Abs(Physics.gravity.y * 100) * Time.deltaTime);
 
             // Move in that direction (visual only)

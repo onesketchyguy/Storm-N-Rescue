@@ -9,25 +9,28 @@ namespace LowEngine.LayerGeneration
     /// </summary>
     public class LayerGenarator : MonoBehaviour
     {
-        [Header("Tiles")]
-        public TileBase InnerBuilding;
+        public LayerMask wallMask;
 
-        public TileBase BlankTile;
-        public TileBase Wall;
-        public TileBase[] FireTiles;
-        public TileBase Rain;
-        public TileBase Window;
-        public TileBase Door;
+        [Header("Tiles")]
+        public GameObject InnerBuilding;
+
+        public GameObject Wall;
+        public GameObject[] FireTiles;
+        public GameObject Window;
+        public GameObject Door;
 
         [Header("Tilemaps")]
-        public Tilemap WalkableMap; // The layer the player will be walking on/destroying
+        public Transform WalkableMap; // The layer the player will be walking on/destroying
 
-        public Tilemap HazardMap; // The layer the player can be damaged by
-        public Tilemap WallMap; // The layer the player will NOT be walking on, but will be visable.
-        public Tilemap RainMap; // A layer the player will NOT be walking on, but will be visable.
+        public Transform HazardMap; // The layer the player can be damaged by
+        public Transform WallMap; // The layer the player will NOT be walking on, but will be visable.
+        public Transform RainMap; // A layer the player will NOT be walking on, but will be visable.
 
+        public Vector2 gridOffset;
         public Vector2 size = new Vector2(10, 3);
         private Vector3 offSet { get; set; }
+
+        public float startOffsetY = -2.5f;
 
         /// <summary>
         /// Wether or not a layer is currently being made.
@@ -37,6 +40,7 @@ namespace LowEngine.LayerGeneration
         public GameObject Civilian;
 
         private int layers;
+        private int maxLayers;
 
         private World.DoorManager dm;
         private Hostile.LightningManager lm;
@@ -52,10 +56,12 @@ namespace LowEngine.LayerGeneration
 
         private void Start()
         {
-            offSet = new Vector3(size.x / 2, -1); // Move the offset down so we can work with the next layer up next time.
+            offSet = new Vector3(size.x / 2, startOffsetY); // Move the offset down so we can work with the next layer up next time.
 
             dm = FindObjectOfType<World.DoorManager>();
             lm = FindObjectOfType<Hostile.LightningManager>();
+
+            maxLayers = Random.Range(5, 15);
 
             GenerateLayer();
         }
@@ -63,15 +69,23 @@ namespace LowEngine.LayerGeneration
         private void Update()
         {
             // Create new layers
-            if (WallMap.GetTile(new Vector3Int(0, (int)Utilities.ScreenMax.y + 5, 0)) == null)
-            {
+            if (CheckLayer(0, Utilities.ScreenMax.y + 5) == false)
                 GenerateLayer();
-            }
+        }
 
-            if (WallMap.GetTile(new Vector3Int(0, (int)(Utilities.ScreenMin.y + size.y), 0)) != null && Time.timeSinceLevelLoad > 30)
-            {
-                ClearLowerLevels();
-            }
+        private bool CheckLayer(float x, float y)
+        {
+            var origin = new Vector3(x, y, -5);
+            var direction = Vector3.forward;
+
+            var ray = new Ray(origin, direction);
+            RaycastHit hitInfo;
+
+            Debug.DrawRay(origin, direction * 1000, Color.red, 1);
+
+            Physics.Raycast(ray, out hitInfo, 1000, wallMask, QueryTriggerInteraction.UseGlobal);
+
+            return (hitInfo.transform != null);
         }
 
         private Spawn[] GetSpawns(Spawn[] spawns = null)
@@ -129,19 +143,8 @@ namespace LowEngine.LayerGeneration
         /// </summary>
         private void GenerateLayer()
         {
-            if (generating) return;
+            if (generating || layers >= maxLayers) return;
             generating = true;
-
-            //Rain
-            for (int y = 0; y < size.y; y++)
-            {
-                for (int x = 0; x < size.x * 6; x++)
-                {
-                    Vector3Int pos = new Vector3Int((int)(x - offSet.x * 4), (int)(y + offSet.y), 0); // Store the position so we can us it again later.
-
-                    RainMap.SetTile(pos, Rain);
-                }
-            }
 
             //Environment
             for (int y = 0; y < size.y; y++)
@@ -150,39 +153,41 @@ namespace LowEngine.LayerGeneration
 
                 for (int x = 0; x < size.x; x++)
                 {
-                    Vector3Int pos = new Vector3Int((int)(x - offSet.x), (int)(y + offSet.y), 0); // Store the position so we can us it again later.
+                    Vector3 pos = new Vector3(Mathf.FloorToInt(x - offSet.x), Mathf.FloorToInt(y + offSet.y), 0); // Store the position so we can us it again later.
 
                     if (x == 0 || x == size.x - 1) // walls
                     {
                         if (y == 1 && (x == 0 || x == size.x - 1)) // Middle area
                         {
-                            if (layers != 0) // Ground level
+                            // Descide wether or not to put a window here
+
+                            var placeWindow = Random.Range(0, 2) == 1;
+
+                            if (placeWindow)
                             {
-                                // Descide wether or not to put a window here
-
-                                var placeWindow = Random.Range(0, 2) == 1;
-
-                                if (placeWindow)
-                                    WalkableMap.SetTile(pos, Window);
-                                else WalkableMap.SetTile(pos, Wall);
+                                // Create a window here
+                                Instantiate(Window, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
                             }
                             else
                             {
-                                WalkableMap.SetTile(pos, Wall);
+                                // Create a wall here
+                                Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
                             }
                         }
                         else
                         {
-                            WalkableMap.SetTile(pos, Wall);
+                            // Create a wall here
+                            Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
                         }
 
-                        WallMap.SetTile(pos, Wall);
+                        // Create a wall here
+                        Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
                     }
                     else
                     if (y == size.y - 1) // cieling
                     {
-                        WalkableMap.SetTile(pos, Wall);
-                        WallMap.SetTile(pos, BlankTile);
+                        // Create a wall here
+                        Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
                     }
                     else
                     {
@@ -197,7 +202,9 @@ namespace LowEngine.LayerGeneration
                                     break;
 
                                 case Spawn.fire:
-                                    HazardMap.SetTile(pos, FireTiles[Random.Range(0, FireTiles.Length)]);
+                                    // Create a Fire here
+                                    Instantiate(FireTiles[Random.Range(0, FireTiles.Length)], pos + (Vector3)gridOffset, Quaternion.identity, HazardMap);
+
                                     break;
 
                                 case Spawn.lightingPoint:
@@ -205,12 +212,13 @@ namespace LowEngine.LayerGeneration
                                     break;
 
                                 case Spawn.civilian:
-                                    Instantiate(Civilian, pos, Quaternion.identity);
+                                    Instantiate(Civilian, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
                                     break;
 
                                 case Spawn.door:
-                                    WallMap.SetTile(pos, Door);
-                                    dm.doors.Add(pos + Vector3.one * 0.5f);
+                                    // Create a Door here
+                                    Instantiate(Door, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
+                                    dm.doors.Add(pos + (Vector3)gridOffset + Vector3.one * 0.5f);
 
                                     _continue = true;
                                     break;
@@ -219,12 +227,11 @@ namespace LowEngine.LayerGeneration
                                     break;
                             }
 
-                            Debug.Log(spawns[x - 1]);
-
                             if (_continue) continue;
                         }
 
-                        WallMap.SetTile(pos, InnerBuilding);
+                        // Create a wall here
+                        Instantiate(InnerBuilding, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
                     }
                 }
             }
@@ -247,9 +254,9 @@ namespace LowEngine.LayerGeneration
                 {
                     var pos = new Vector3Int((int)(x - size.x), (int)(y), 0);
 
-                    HazardMap.SetTile(pos, null);
-                    WalkableMap.SetTile(pos, null);
-                    WallMap.SetTile(pos, null);
+                    //HazardMap.SetTile(pos, null);
+                    //WalkableMap.SetTile(pos, null);
+                    //WallMap.SetTile(pos, null);
 
                     if (y == max - 1) // setup next minimum so we don't loop through already cleared blocks
                         minimumLevel = max;

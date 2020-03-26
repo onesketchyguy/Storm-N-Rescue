@@ -27,8 +27,8 @@ namespace World
         {
             Generator = FindObjectOfType<LayerGenarator>();
 
-            HazardMap = Generator.HazardMap;
-            WallMap = Generator.WallMap;
+            //HazardMap = Generator.HazardMap;
+            //WallMap = Generator.WallMap;
 
             InvokeRepeating(nameof(SpreadFire), 5, 1);
         }

@@ -10,6 +10,8 @@ namespace LowEngine
         [SerializeField] private float DigRange = 0.5f;
         public LayerMask Diggable;
 
+        public float rayStartOffset = 0.5f;
+
         public GameObject WallEffect;
         public GameObject FireEffect;
         public GameObject GlassEffect;
@@ -23,7 +25,7 @@ namespace LowEngine
         {
             get
             {
-                return GetComponent<SpriteRenderer>().flipX ? -1 : 1;
+                return transform.localScale.x > 0 ? 1 : -1;
             }
         }
 
@@ -33,68 +35,56 @@ namespace LowEngine
             {
                 attacking = false;
             }
+
+            if (input.x != 0) Attack();
         }
 
         public void Attack()
         {
             lastAttack = Time.time;
 
-            Vector3 targetPosition = transform.right * faceDirection;
-            RaycastHit2D hitInfo;
+            var direction = transform.right * faceDirection;
+            var start = transform.position + (direction * rayStartOffset);
+            RaycastHit hitInfo;
+            Physics.Raycast(start, direction, out hitInfo, DigRange, Diggable, QueryTriggerInteraction.UseGlobal);
 
-            if ((hitInfo = Physics2D.Raycast(transform.position, targetPosition, DigRange, Diggable)) == true)
+            if (hitInfo.transform != null)
             {
-                var tilemap = hitInfo.transform.gameObject.GetComponent<Tilemap>();
+                var hit = hitInfo.transform;
 
-                Debug.DrawRay(transform.position, targetPosition * DigRange, Color.red, 2f);
-
-                if (tilemap == null)
+                if (hit == null)
                 {
                     attacking = false;
-
-                    Debug.Log("No tilemap hit");
-
                     return;
                 }
 
-                Vector3Int position = new Vector3Int(
-                (int)hitInfo.point.x + (faceDirection > 0 ? 0 : -1),
-                Mathf.FloorToInt(hitInfo.point.y),
-                0);
+                Debug.DrawRay(start, direction * hitInfo.distance, Color.red, 1f);
 
-                DestroyTile(position, tilemap);
+                if (hit.tag == "Destructable")
+                    DestroyTile(hit);
             }
-
-            var HazardMap = GameObject.Find("HazardMap").GetComponent<Tilemap>();
-
-            for (int y = Mathf.FloorToInt(transform.position.y - 1); y < Mathf.CeilToInt(transform.position.y + 1); y++)
+            else
             {
-                for (int x = Mathf.FloorToInt(transform.position.x - 1); x < Mathf.CeilToInt(transform.position.x + 1); x++)
-                {
-                    Vector3Int position = new Vector3Int(x, y, 0);
-
-                    if (position.x >= transform.position.x && faceDirection == 1 || position.x <= transform.position.x && faceDirection == -1)
-                        DestroyTile(position, HazardMap);
-                }
+                Debug.DrawRay(start, direction * DigRange, Color.white, 1f);
             }
 
             attacking = false;
         }
 
-        private void DestroyTile(Vector3Int position, Tilemap tilemap)
+        private void DestroyTile(Transform hit)
         {
-            if (tilemap.GetTile(position) != null)
+            if (hit != null)
             {
-                if (FireEffect != null && tilemap.GetTile(position).name.ToLower().Contains("fire"))
-                    Instantiate(FireEffect, position, Quaternion.identity);
+                if (FireEffect != null && hit.name.ToLower().Contains("fire"))
+                    Instantiate(FireEffect, hit.position, Quaternion.identity);
                 else
-                if (GlassEffect != null && tilemap.GetTile(position).name.ToLower().Contains("window"))
-                    Instantiate(GlassEffect, position, Quaternion.identity);
+                if (GlassEffect != null && hit.name.ToLower().Contains("window"))
+                    Instantiate(GlassEffect, hit.position, Quaternion.identity);
                 else
                 if (WallEffect != null)
-                    Instantiate(WallEffect, position, Quaternion.identity);
+                    Instantiate(WallEffect, hit.position, Quaternion.identity);
 
-                tilemap.SetTile(position, null);
+                Destroy(hit.gameObject);
             }
         }
     }

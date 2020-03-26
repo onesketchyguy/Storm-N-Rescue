@@ -8,7 +8,7 @@ namespace Hostile
     {
         internal List<Vector3> strikeablePositions = new List<Vector3>();
 
-        public GameObject LightningEffect;
+        public GameObject lightningEffect;
         public TileBase[] fire;
 
         public Lightning[] lightningBolts;
@@ -37,6 +37,8 @@ namespace Hostile
 
         private void FixedUpdate()
         {
+            return;
+
             if (strikeablePositions == null || strikeablePositions.Count <= 1)
             {
                 return;
