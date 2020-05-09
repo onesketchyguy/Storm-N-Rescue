@@ -106,24 +106,24 @@ namespace LowEngine.Helpers
                 if (CurrentMessage == "Press C or left click to break walls.") ShowMessage("");
             }
 
-            if (PlayerManager.carrying == true)
-            {
-                if (Player.GetComponent<ICombat>().input.y != 0) timesRescued++;
-
-                if (timeBeforeCarriedCivilians + rescueKey < Time.time && timesRescued < 1)
-                {
-                    // Display Attack key.
-                    ShowMessage("Press X or right click to toss civilians to safety.");
-                }
-                else
-                {
-                    if (CurrentMessage == "Press X or right click to toss civilians to safety.") ShowMessage("");
-                }
-            }
-            else
-            {
-                timeBeforeCarriedCivilians = Time.time;
-            }
+            // if (PlayerManager.carrying == true)
+            // {
+            //     if (Player.GetComponent<ICombat>().input.y != 0) timesRescued++;
+            //
+            //     if (timeBeforeCarriedCivilians + rescueKey < Time.time && timesRescued < 1)
+            //     {
+            //         // Display Attack key.
+            //         ShowMessage("Press X or right click to toss civilians to safety.");
+            //     }
+            //     else
+            //     {
+            //         if (CurrentMessage == "Press X or right click to toss civilians to safety.") ShowMessage("");
+            //     }
+            // }
+            // else
+            // {
+            //     timeBeforeCarriedCivilians = Time.time;
+            // }
 
             if (loadTime > stairsKey && Vector3.Distance(new Vector3(0, Player.transform.position.y), new Vector3(0, startPosition.y)) < 2.5)
             {

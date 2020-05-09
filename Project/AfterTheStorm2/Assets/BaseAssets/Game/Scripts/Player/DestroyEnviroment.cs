@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace LowEngine
 {
@@ -39,7 +38,7 @@ namespace LowEngine
             if (input.x != 0) Attack();
         }
 
-        public void Attack()
+        public Transform CheckForWall()
         {
             lastAttack = Time.time;
 
@@ -55,13 +54,15 @@ namespace LowEngine
                 if (hit == null)
                 {
                     attacking = false;
-                    return;
+                    return null;
                 }
 
                 Debug.DrawRay(start, direction * hitInfo.distance, Color.red, 1f);
 
                 if (hit.tag == "Destructable")
-                    DestroyTile(hit);
+                {
+                    return hit;
+                }
             }
             else
             {
@@ -69,6 +70,18 @@ namespace LowEngine
             }
 
             attacking = false;
+
+            return null;
+        }
+
+        public void Attack()
+        {
+            Transform hit = CheckForWall();
+
+            if (hit != null)
+            {
+                DestroyTile(hit);
+            }
         }
 
         private void DestroyTile(Transform hit)
@@ -76,16 +89,23 @@ namespace LowEngine
             if (hit != null)
             {
                 if (FireEffect != null && hit.name.ToLower().Contains("fire"))
-                    Instantiate(FireEffect, hit.position, Quaternion.identity);
+                    CreateEffect(FireEffect, hit.position);
                 else
                 if (GlassEffect != null && hit.name.ToLower().Contains("window"))
-                    Instantiate(GlassEffect, hit.position, Quaternion.identity);
+                    CreateEffect(GlassEffect, hit.position);
                 else
                 if (WallEffect != null)
-                    Instantiate(WallEffect, hit.position, Quaternion.identity);
+                    CreateEffect(WallEffect, hit.position);
 
-                Destroy(hit.gameObject);
+                ObjectManager.ReturnObject(hit.gameObject);
             }
+        }
+
+        private void CreateEffect(GameObject effect, Vector3 point)
+        {
+            var go = ObjectManager.GetObject(effect);
+            go.transform.position = point;
+            go.transform.rotation = Quaternion.identity;
         }
     }
 }

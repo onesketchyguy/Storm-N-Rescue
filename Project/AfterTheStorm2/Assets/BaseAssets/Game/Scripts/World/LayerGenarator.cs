@@ -166,28 +166,28 @@ namespace LowEngine.LayerGeneration
                             if (placeWindow)
                             {
                                 // Create a window here
-                                Instantiate(Window, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
+                                CreateObject(Window, pos + (Vector3)gridOffset, WalkableMap);
                             }
                             else
                             {
                                 // Create a wall here
-                                Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
+                                CreateObject(Wall, pos + (Vector3)gridOffset, WalkableMap);
                             }
                         }
                         else
                         {
                             // Create a wall here
-                            Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
+                            CreateObject(Wall, pos + (Vector3)gridOffset, WalkableMap);
                         }
 
                         // Create a wall here
-                        Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
+                        CreateObject(Wall, pos + (Vector3)gridOffset, WallMap);
                     }
                     else
                     if (y == size.y - 1) // cieling
                     {
                         // Create a wall here
-                        Instantiate(Wall, pos + (Vector3)gridOffset, Quaternion.identity, WalkableMap);
+                        CreateObject(Wall, pos + (Vector3)gridOffset, WalkableMap);
                     }
                     else
                     {
@@ -203,7 +203,7 @@ namespace LowEngine.LayerGeneration
 
                                 case Spawn.fire:
                                     // Create a Fire here
-                                    Instantiate(FireTiles[Random.Range(0, FireTiles.Length)], pos + (Vector3)gridOffset, Quaternion.identity, HazardMap);
+                                    CreateObject(FireTiles[Random.Range(0, FireTiles.Length)], pos + (Vector3)gridOffset, HazardMap);
 
                                     break;
 
@@ -212,12 +212,12 @@ namespace LowEngine.LayerGeneration
                                     break;
 
                                 case Spawn.civilian:
-                                    Instantiate(Civilian, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
+                                    CreateObject(Civilian, pos + (Vector3)gridOffset + Civilian.transform.position, WallMap);
                                     break;
 
                                 case Spawn.door:
                                     // Create a Door here
-                                    Instantiate(Door, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
+                                    CreateObject(Door, pos + (Vector3)gridOffset, WallMap);
                                     dm.doors.Add(pos + (Vector3)gridOffset + Vector3.one * 0.5f);
 
                                     _continue = true;
@@ -231,7 +231,7 @@ namespace LowEngine.LayerGeneration
                         }
 
                         // Create a wall here
-                        Instantiate(InnerBuilding, pos + (Vector3)gridOffset, Quaternion.identity, WallMap);
+                        CreateObject(InnerBuilding, pos + (Vector3)gridOffset, WallMap);
                     }
                 }
             }
@@ -244,6 +244,14 @@ namespace LowEngine.LayerGeneration
         }
 
         private int minimumLevel;
+
+        private void CreateObject(GameObject obj, Vector3 position, Transform parent = null)
+        {
+            var go = ObjectManager.GetObject(obj);
+            go.transform.position = position;
+            go.transform.rotation = Quaternion.identity;
+            go.transform.SetParent(parent);
+        }
 
         private void ClearLowerLevels()
         {

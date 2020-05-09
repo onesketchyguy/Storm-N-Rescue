@@ -108,7 +108,10 @@ namespace Hostile
             //lightningManager.fire[Random.Range(0, lightningManager.fire.Length)]);
 
             if (lightningManager.lightningEffect != null)
-                Instantiate(lightningManager.lightningEffect, target, Quaternion.identity);
+            {
+                var go = ObjectManager.GetObject(lightningManager.lightningEffect);
+                go.transform.position = target;
+            }
 
             yield return null;
 

@@ -11,7 +11,7 @@ namespace Hostile
         [Tooltip("Amount of damage to deal on contact with the user.")]
         public int damage = 10;
 
-        private void OnTriggerStay2D(Collider2D collision)
+        private void OnTriggerStay(Collider collision)
         {
             var damagable = collision.gameObject.GetComponent<IDamagable>();
 
@@ -21,7 +21,7 @@ namespace Hostile
             }
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
+        private void OnCollisionStay(Collision collision)
         {
             var damagable = collision.gameObject.GetComponent<IDamagable>();
 

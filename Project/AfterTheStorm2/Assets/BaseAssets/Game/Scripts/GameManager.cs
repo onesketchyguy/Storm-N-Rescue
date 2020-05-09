@@ -11,7 +11,7 @@ namespace LowEngine
         {
             get
             {
-                return FindObjectOfType<PlayerManager>();
+                return FindObjectOfType<Helpers.PlayerInput>().GetComponent<PlayerManager>();
             }
         }
 
@@ -45,10 +45,10 @@ namespace LowEngine
                 StartCoroutine(LoadNewLevel());
             }
 
-            if (player.gameObject.transform.position.y < Utilities.ScreenMin.y - 1)
-            {
-                player.Hurt(30);
-            }
+            //if (player.gameObject.transform.position.y < Utilities.ScreenMin.y - 1)
+            //{
+            //    player.Hurt(30);
+            //}
 
 #if UNITY_STANDALONE
             if (Input.GetKey(KeyCode.Escape))
@@ -69,12 +69,17 @@ namespace LowEngine
         {
             alreadyLoading = true;
 
-            var soundTrack = GameObject.Find("SoundTrack").GetComponent<AudioSource>();
+            var soundTrackObject = GameObject.Find("SoundTrack");
 
-            while (soundTrack.volume > 0.01f)
+            if (soundTrackObject != null)
             {
-                soundTrack.volume = Mathf.Lerp(soundTrack.volume, 0, Time.deltaTime);
-                yield return null;
+                var soundTrack = soundTrackObject.GetComponent<AudioSource>();
+
+                while (soundTrack.volume > 0.01f)
+                {
+                    soundTrack.volume = Mathf.Lerp(soundTrack.volume, 0, Time.deltaTime);
+                    yield return null;
+                }
             }
 
             yield return new WaitForSecondsRealtime(1.5f);

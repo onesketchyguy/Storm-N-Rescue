@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using LowEngine.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,7 @@ namespace LowEngine
             {
                 SetFillAmount(0);
 
-                player = FindObjectOfType<PlayerManager>();
+                player = FindObjectOfType<PlayerInput>().GetComponent<PlayerManager>();
             }
             else
             {

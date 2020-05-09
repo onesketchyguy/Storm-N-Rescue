@@ -35,13 +35,21 @@ namespace World
 
             void MovePlayer(int doorIndex)
             {
+                var col = player.GetComponent<Collider>();
+                col.enabled = false;
+                var rigidbody = player.GetComponent<Rigidbody>();
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+
                 // Take player to next door up
                 var doorPos = doors[doorIndex];
                 var newPos = new Vector3(doorPos.x, doorPos.y, player.transform.position.z);
                 player.transform.position = newPos;
-                //LowEngine.Audio.AudioManager.instance.PlayClimbSound(Camera.main.transform.position);
+                LowEngine.Audio.AudioManager.instance.PlayClimbSound(Camera.main.transform.position);
 
                 lastMovement = Time.time;
+
+                col.enabled = true;
             }
 
             for (int i = 0; i < doors.Count - 1; i++)

@@ -16,10 +16,6 @@ namespace LowEngine
 
         #endregion IMovement items
 
-        public Vector3 v;
-
-        private Vector4 lastInput;
-
         private new Rigidbody rigidbody;
 
         // Inspector items
@@ -42,8 +38,8 @@ namespace LowEngine
             var velocity = rigidbody.velocity;
 
             // Add the user input
-            var move = new Vector3(input.x * speed, velocity.y, 0);
-            velocity = Vector3.Lerp(velocity, move, Mathf.Abs(Physics.gravity.y * 100) * Time.deltaTime);
+            var move = new Vector3(input.x * speed, 0, 0);
+            rigidbody.AddForce(move);
 
             // Move in that direction (visual only)
             var leanAmount = ((-input.x * 2) - currentSpeed.x) * Time.deltaTime;
@@ -54,10 +50,7 @@ namespace LowEngine
             transform.localScale = new Vector3(movingRight ? 1 : -1, 1, 1);
 
             // Set the variables
-            rigidbody.velocity = currentSpeed = velocity;
-            lastInput = move;
-
-            v = velocity;
+            currentSpeed = velocity;
         }
     }
 }
